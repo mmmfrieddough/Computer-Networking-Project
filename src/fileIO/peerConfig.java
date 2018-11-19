@@ -10,7 +10,7 @@ public class peerConfig {
 	public int port;
 	public boolean hasFile;
 	
-	peerConfig(int newID) throws FileNotFoundException {
+	public peerConfig(int newID) throws FileNotFoundException {
 		File file = new File("PeerInfo.cfg"); 
 	    Scanner sc = new Scanner(file);
 	    

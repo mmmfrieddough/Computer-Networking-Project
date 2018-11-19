@@ -15,11 +15,12 @@ public class peer {
 	List<RemotePeerInfo> connectedPeer;
 	volatile Map<RemotePeerInfo, BitSet> NeighborPreferred;
 	Map<Integer, RemotePeerInfo> peersInterested;
+	public 
 	
 	private int peerID;
 	private String hostName;
 	private int portNumber;
-	private int hasFile;
+	private boolean hasFile;
 	
 	private int pieceSizeExcess;
 	private int pieceCount;
@@ -69,7 +70,7 @@ public class peer {
 		
 	}
 	
-	public int getHasFile(int hasFile) {
+	public boolean getHasFile() {
 		return hasFile;
 	}
 	
@@ -77,7 +78,7 @@ public class peer {
 		return bitfield.get(i);
 	}
 	
-	public void setHasFile(int hasFile) {
+	public void setHasFile(boolean hasFile) {
 		this.hasFile = hasFile;
 	}
 	

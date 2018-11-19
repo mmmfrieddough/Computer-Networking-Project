@@ -13,7 +13,7 @@ public class config {
 	public int PieceSize;
 	
 	public void getCommonConfig() throws FileNotFoundException {
-	    File file = new File("Common.cfg"); 
+	    File file = new File("Common.cfg");
 	    Scanner sc = new Scanner(file);
 	  
 	    sc.next();
