@@ -73,11 +73,8 @@ public class connectionPeer {
 	public void startCommunicating() throws Exception{
 		message MSG = null;    //message
 		byte[] pieceIndexField = null;
-		if(Peer.getPeerI);    //TODO
-			
-		
-			
-			
+		if(peer.getPeerID());    //TODO
+
 	}
 	
 	

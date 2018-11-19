@@ -18,7 +18,7 @@ public class peer {
 	Map<Integer, RemotePeerInfo> peersInterested;
 	public 
 	
-	private int peerID;
+	public int peerID;
 	private String hostName;
 	private int portNumber;
 	private boolean hasFile;

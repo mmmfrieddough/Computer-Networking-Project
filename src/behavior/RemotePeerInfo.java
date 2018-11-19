@@ -10,6 +10,10 @@ package behavior;
  */
 
 import Message.message_process;
+import connection.msgType;
+import connection.peer;
+
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -40,7 +44,7 @@ public class RemotePeerInfo {
 		this.PeerPort = PeerPort;
 		this.hasFile = hasFile;
 		this.downloadRate = 0;              //not sure if i should use 0L
-		this.bitfield = new BitSet(Peer.getPeerInstance().get_pieceCount());    //need to create a method later
+		this.bitfield = new BitSet(peer.getPeerInstance().getPieceCount());    //need to create a method later
 		this.state = msgType.choke;      //need to create another file to explain
 		this.bufferedInputStream = null;
 		this.bufferedOutputStream = null;

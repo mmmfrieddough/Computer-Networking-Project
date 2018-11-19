@@ -1,11 +1,15 @@
 package connection;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
+import java.util.BitSet;
 
 import Message.*;
 import behavior.RemotePeerInfo;
+import messageType.interest;
 
 public class connectionPeerHelper {
 	public message sendBitSetMSG(BufferedOutputStream out) throws Exception {
@@ -99,6 +103,87 @@ public class connectionPeerHelper {
 	}
 	
 	/////////////////////////////////////////start from 92
+	
+	public byte[] getActualMessage(BufferedInputStream in) {
+		byte[] ByteLength = new byte[4];
+		int byteReadin = -1;
+		byte[] data = null; 
+		try {
+			byteReadin = in.read(ByteLength);
+			if(byteReadin!=4) {
+				System.out.println("The length of message in not corrent!");
+			}
+			int dataLength = MessageUtil.byteArrayToInt(ByteLength);
+			byte[] messageType = new byte[1];
+			in.read(messageType);
+			if(messageType[0]==(byte)5) {
+				int actualDataLength = dataLength - 1;
+				data = new byte[actualDataLength];
+				data = MessageUtil.readBytes(in, data, actualDataLength);
+			}
+			else {
+				System.out.println("Message type is not correct");
+			}
+		}
+		catch (IOException e){
+			System.out.println("Not able to get the length of actual message");
+			e.printStackTrace();
+		}
+		return data;
+	}
+
+	public static byte getMSGType(BufferedInputStream in) throws IOException {
+		byte[] ByteLengthAndMSGType = new byte[5];
+		in.read(ByteLengthAndMSGType);
+		return ByteLengthAndMSGType[4];
+	}
+	
+	
+	//TODO  it might be wrong    
+	public static boolean isInterested(BitSet b1, BitSet b2) {
+		for(int i=0;i<b2.length();i++) {
+//			if(b1.get(i)!=b2.get(i) && b1.get(i)==false && b2.get(i)==true) {
+//				return true;
+//			}
+			if(b1.get(i)!=b2.get(i)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	//not sure if interested is mutual or not  
+	public static byte[] getPieceIndex(RemotePeerInfo remote) {
+		 BitSet b1 = remote.getbitField();
+		 BitSet b2 = peer.getPeerInstance().getBitSet();
+		 int pieceIndex = compare(b1, b2);
+		 return MessageUtil.intToByteArray(pieceIndex);
+	}
+	
+	public static int compare(BitSet left, BitSet right) {
+		if(left.equals(right)) {
+			return 0;
+		}
+		BitSet xor = (BitSet) left.clone();
+		xor.xor(right);
+		int firstDifferent = xor.length()-1;
+		if(firstDifferent==-1) {
+			return 0;
+		}
+		return right.get(firstDifferent) ? 1:-1;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
