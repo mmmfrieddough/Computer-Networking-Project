@@ -47,7 +47,7 @@ public class peerProcess {
     	// Callable for creating server
     	Callable serverCreator = new Callable() {
     		public Object call() {
-    			Server server = new Server();
+    			peerServer server = new peerServer();
     			new Thread(server).start();
     		}
     	};
@@ -55,7 +55,7 @@ public class peerProcess {
     	// Callable for creating client
     	Callable clientCreator = new Callable() {
     		public Object call() {
-    			Client client = new Client();
+    			peerClient client = new peerClient();
     			new Thread(client).start();
     		}
     	};
@@ -69,5 +69,11 @@ public class peerProcess {
     	// Send connection requests
     	peer.preferredNeighbor();
     	peer.getBest();
+    }
+    public static boolean getFinished() {
+    	return finished;
+    }
+    public static void setFinished() {
+    	finished = true;
     }
 }

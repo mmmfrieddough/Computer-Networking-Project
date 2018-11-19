@@ -15,11 +15,12 @@ public class peerClient implements Runnable {
 	// Client is created with list of peers to connect to
     peerClient(Map<Integer, RemotePeerInfo> PeerConnectTo, int numPeerConnectTo) {
     	this.PeerConnectTo = PeerConnectTo;
+    	// Create enough threads in pool for the number of peers that will be connected to
     	this.outThreadPool = Executors.newFixedThreadPool(numPeerConnectTo);
     }
     
     public void run() {
-    	// Synchronize so muliple clients do not get assigned the same thread
+    	// Synchronize so multiple clients do not get assigned the same thread
     	synchronized (this) {
     		// Assign the current thread to this process
     		this.clientThread = Thread.currentThread();
