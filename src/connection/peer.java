@@ -16,7 +16,6 @@ public class peer {
 	List<RemotePeerInfo> connectedPeer;
 	volatile Map<RemotePeerInfo, BitSet> NeighborPreferred;
 	Map<Integer, RemotePeerInfo> peersInterested;
-	public 
 	
 	private int peerID;
 	private String hostName;
