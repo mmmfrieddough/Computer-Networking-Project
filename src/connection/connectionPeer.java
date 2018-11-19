@@ -73,12 +73,9 @@ public class connectionPeer {
 	public void startCommunicating() throws Exception{
 		message MSG = null;    //message
 		byte[] pieceIndexField = null;
-		if(Peer.getPeer);    //TODO
+		if(Peer.getPeerI);    //TODO
 			
-			
-		while(true) {
-			
-		}
+		
 			
 			
 	}

@@ -5,6 +5,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.ThreadLocalRandom;
 
 import behavior.RemotePeerInfo;
+import fileIO.config;;
 
 public class peer {
 	public static peer Peer;
@@ -91,8 +92,8 @@ public class peer {
 	}
 	
 	public void setPieceCount() {
-		int fileSize = constant.getFileSize();                                  //TODO
-		int pieceSize = constant.getPieceSize();
+		int fileSize = config.getFileSize();                                  //TODO
+		int pieceSize = config.getPieceSize();
 		this.pieceCount = (int) Math.ceil((double) fileSize/pieceSize);
 	}
 	
@@ -121,7 +122,7 @@ public class peer {
 	}
 	
 	public static peer getPeerInstance() {
-		if(Per==null) {
+		if(Peer==null) {
 			synchronized(peer.class) {
 				if(Peer==null) Peer = new peer();
 			}
@@ -139,7 +140,7 @@ public class peer {
 		
 		Timer BestTimer = new Timer();
 		long delay = 0L;
-		long period = (long) Constants.getBestUnchokedInterval() * 1000;    //TODO
+		long period = (long) config.getOptimisticUnchokingInterval() * 1000;    //TODO
 		BestTimer.scheduleAtFixedRate(repeatedTask, delay, period);
 		
 	}
@@ -159,15 +160,15 @@ public class peer {
 		};
 		
 		Timer prefTimer = new Timer();
-		long delay = (long) Constants.getUnchokedInterval() *1000;
-		long period = (long) Constants.getUnchokedInterval() *1000;
+		long delay = (long) config.getUnchokingInterval() *1000;
+		long period = (long) config.getUnchokingInterval() *1000;
 		prefTimer.scheduleAtFixedRate(repeatedTask, delay, period);
 	}
 	
 	private synchronized void setPreferredNeighbor() {
 		// TODO Auto-generated method stub
 		List<RemotePeerInfo> remotePeerList = new LinkedList<>(this.peersInterested.values());
-		Queue<RemotePeerInfo> neighborsQueue = new PriorityBlockingQueue<>(Constants.getNumberOfPreferredNeighbors(), (o1, o2) -> Math.toIntExact(o1.getDownload_rate() - o2.getDownload_rate()));
+		Queue<RemotePeerInfo> neighborsQueue = new PriorityBlockingQueue<>(config.getNumberOfPreferredNeighbors(), (o1, o2) -> Math.toIntExact(o1.getDownloadRate() - o2.getDownloadRate()));
 		
 		
 		for(RemotePeerInfo remote : remotePeerList) {
@@ -183,7 +184,7 @@ public class peer {
 		
 		while(!neighborsQueue.isEmpty()) {
 			if (this.hasFile != 1) {
-                remote = neighborsQueue.poll();
+                remote = neighborsQueue.poll(); //like the pop in a stack
                 if ((remote != null ? remote.getState() : null) == msgType.choke) {
 					try {
 						PeerCommunicationHelper.sendChokeMsg(remote.bufferedOutputStream);
@@ -191,7 +192,7 @@ public class peer {
 						// TODO Auto-generated catch block
 						throw new RuntimeException ("Could not send choke message from the peer class", e);
 					}
-                this.NeighborPreferred.put(remote, remote.getBitfield());
+                this.NeighborPreferred.put(remote, remote.getbitField());
                 }
             }
 			
@@ -199,7 +200,7 @@ public class peer {
                 remote = this.connectedPeer.get(ThreadLocalRandom.current().nextInt(this.connectedPeers.size()));
                 if (remote.getState() == msgType.choke || remote.getState() == null)
                 	try {
-						PeerCommunicationHelper.sendChokeMsg(remote.bufferedOutputStream);
+						PeerCommunicationHelper.sendUnChokeMsg(remote.bufferedOutputStream);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						throw new RuntimeException ("Could not send choke message from the peer class", e);
@@ -209,7 +210,7 @@ public class peer {
             }
 			
 			count++;
-            if (count == Constants.getNumberOfPreferredNeighbors()) break;
+            if (count == config.getNumberOfPreferredNeighbors()) break;
 
 
 		}
@@ -217,7 +218,7 @@ public class peer {
 		while (!neighborsQueue.isEmpty()) {
         	remote = neighborsQueue.poll();
         	try {
-				PeerCommunicationHelper.sendChokeMsg(remote.bufferedOutputStream);
+				PeerCommunicationHelper.sendUnChokeMsg(remote.bufferedOutputStream);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				throw new RuntimeException ("Not able to send choke message", e);
