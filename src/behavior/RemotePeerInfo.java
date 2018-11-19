@@ -13,7 +13,10 @@ import Message.message_process;
 import connection.msgType;
 import connection.peer;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1a39bc252c1bc4ea7974487fa93e71cbc9790551
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -115,7 +118,7 @@ public class RemotePeerInfo {
 		return hasFile;
 	}
 	
-	public void set_hasFile() {
+	public void set_hasFile(int hasFile) {
 		this.hasFile = hasFile;
 	}
 		
