@@ -11,4 +11,9 @@ public class dataFile {
 	        directory.mkdir();
 	    }
 	}
+	
+	public static boolean findFile(int peerID) {
+		File file = new File("/peer_" + String.valueOf(peerID) + "/" + config.getFileName());
+		return file.exists();
+	}
 }

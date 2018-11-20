@@ -33,8 +33,9 @@ public class peerProcess {
     	
     	if (peer.getHasFile()) {
     		peer.setBitSet();
-    		// TODO Check if file actually exists
-    		// TODO Split file based on piece size
+    		if (dataFile.findFile(peer.getPeerID())) {
+    			// TODO Split file based on piece size
+    		}
     	}
     	else {
     		// Make new directory for partial files
