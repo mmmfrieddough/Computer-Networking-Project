@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import connection.peer;
 import fileIO.config;
+import fileIO.dataFile;
 import fileIO.peerConfig;
 
 public class peerProcess {
@@ -37,11 +38,7 @@ public class peerProcess {
     	}
     	else {
     		// Make new directory for partial files
-    		// TODO move into dataFile class
-    		File directory = new File("/peer_" + String.valueOf(peer.getPeerID()));
-    	    if (!directory.exists()) {
-    	        directory.mkdir();
-    	    }
+    		dataFile.createDirectory(peer.getPeerID());
     	}
     	
     	// Callable for creating server
