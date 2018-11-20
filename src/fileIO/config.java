@@ -11,6 +11,7 @@ public class config {
 	public static String FileName;
 	public static Integer FileSize;
 	public static Integer PieceSize;
+	public static String partName = "part_";
 
 	public static void getCommonConfig() throws FileNotFoundException {
 	    File file = new File("Common.cfg");
@@ -86,8 +87,7 @@ public class config {
 		PieceSize = PieceSize==null ? pieceSize : throwEI();
 	}
 
-
-
-
-
+	public static String getPartName() {
+		return partName;
+	}
 }

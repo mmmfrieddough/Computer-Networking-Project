@@ -1,6 +1,8 @@
 package processes;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -34,7 +36,15 @@ public class peerProcess {
     	if (peer.getHasFile()) {
     		peer.setBitSet();
     		if (dataFile.findFile(peer.getPeerID())) {
-    			// TODO Split file based on piece size
+    			try {
+					dataFile.splitFile(peer.getPeerID());
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
     		}
     	}
     	else {
