@@ -55,7 +55,7 @@ public class connectionPeer {
 			throw new RuntimeException("Not able to open client socket", e);
 		}
 		
-		this.Handshake = new handshake();   //TODO
+		this.Handshake = new handshake(peer.getPeerInstance().getPeerID(), this.remotePeer);   //TODO
 		
 		try {
 			this.Handshake.sendHandshakeMSG(this.out);

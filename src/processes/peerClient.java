@@ -27,7 +27,7 @@ public class peerClient implements Runnable {
     	}
     	// Go through remote peers in list and start a connection process for each
     	for (RemotePeerInfo remotePeer : this.PeerConnectTo.values()) {
-    		this.outThreadPool.execute(new remotePeerConnection(remotePeer));
+    		this.outThreadPool.execute(new remotePeerInfo(remotePeer));
     	}
     }
 }
