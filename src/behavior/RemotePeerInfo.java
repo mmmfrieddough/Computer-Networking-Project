@@ -13,10 +13,7 @@ import Message.message_process;
 import connection.msgType;
 import connection.peer;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 1a39bc252c1bc4ea7974487fa93e71cbc9790551
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -72,11 +69,11 @@ public class RemotePeerInfo {
 		this.state = state;
 	}
 	
-	public long getDownloadRate(long l) {
+	public long getDownloadRate() {
 		return downloadRate;
 	}
 	
-	public void setDownlaodRate(long downloadRate) {
+	public void setDownloadRate(long downloadRate) {
 		this.downloadRate = downloadRate;
 	}
 	

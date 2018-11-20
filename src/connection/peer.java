@@ -20,7 +20,7 @@ public class peer {
 	public int peerID;
 	private String hostName;
 	private int portNumber;
-	private boolean hasFile;
+	private int hasFile;
 	
 	private int pieceSizeExcess;
 	private int pieceCount;
@@ -70,7 +70,7 @@ public class peer {
 		
 	}
 	
-	public boolean getHasFile() {
+	public int getHasFile() {
 		return hasFile;
 	}
 	
@@ -78,7 +78,7 @@ public class peer {
 		return bitfield.get(i);
 	}
 	
-	public void setHasFile(boolean hasFile) {
+	public void setHasFile(int hasFile) {
 		this.hasFile = hasFile;
 	}
 	
@@ -186,7 +186,8 @@ public class peer {
                 remote = neighborsQueue.poll(); //like the pop in a stack
                 if ((remote != null ? remote.getState() : null) == msgType.choke) {
 					try {
-						PeerCommunicationHelper.sendChokeMsg(remote.bufferedOutputStream);
+						connectionPeerHelper.sendChokeMSG(remote.bufferedOutputStream);
+						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						throw new RuntimeException ("Could not send choke message from the peer class", e);
@@ -196,10 +197,10 @@ public class peer {
             }
 			
 			else{
-                remote = this.connectedPeer.get(ThreadLocalRandom.current().nextInt(this.connectedPeers.size()));
+                remote = this.connectedPeer.get(ThreadLocalRandom.current().nextInt(this.connectedPeer.size()));
                 if (remote.getState() == msgType.choke || remote.getState() == null)
                 	try {
-						PeerCommunicationHelper.sendUnChokeMsg(remote.bufferedOutputStream);
+						connectionPeerHelper.sendUnChokeMSG(remote.bufferedOutputStream);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						throw new RuntimeException ("Could not send choke message from the peer class", e);
@@ -217,7 +218,7 @@ public class peer {
 		while (!neighborsQueue.isEmpty()) {
         	remote = neighborsQueue.poll();
         	try {
-				PeerCommunicationHelper.sendUnChokeMsg(remote.bufferedOutputStream);
+        		connectionPeerHelper.sendUnChokeMSG(remote.bufferedOutputStream);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				throw new RuntimeException ("Not able to send choke message", e);

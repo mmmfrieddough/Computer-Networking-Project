@@ -161,7 +161,7 @@ public class connectionPeer {
 						|| peer.getPeerInstance().getBest() == this.remotePeer) {
 					connectionPeerHelper.sendPieceMSG(this.out, MessageUtil.byteArrayToInt(msgPayloadReceived));
 					this.downloadEnd = System.nanoTime();
-					this.remotePeer.getDownloadRate(this.downloadEnd-this.downloadStart);
+					this.remotePeer.setDownloadRate(this.downloadEnd-this.downloadStart);
 					break;
 				}
 			}
@@ -179,24 +179,6 @@ public class connectionPeer {
 		}
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }
