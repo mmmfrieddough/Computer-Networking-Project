@@ -11,7 +11,12 @@ public class config {
 	public static String FileName;
 	public static Integer FileSize;
 	public static Integer PieceSize;
+<<<<<<< HEAD
 	public static String partName = "part_";
+=======
+	public static final String HandShakeHeader = "P2PFILESHARING";
+	public static final String zerobit = "0000000000";
+>>>>>>> 83c26c74298a269e3141b569a604cfdd9a0dc87a
 
 	public static void getCommonConfig() throws FileNotFoundException {
 	    File file = new File("Common.cfg");

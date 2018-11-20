@@ -93,7 +93,7 @@ public class connectionPeerHelper {
 	}
 	
 	public static message sendPieceMSG(BufferedOutputStream out, int PieceIndex) throws Exception {
-		File piece = FileManagerExecutor.getFilePart(pieceIndex);
+		File piece = FileManagerExecutor.getFilePart(PieceIndex);
 		byte[] payload = Files.readAllBytes(piece.toPath());
 		message_process messageProcess = new message_process((byte)7, payload);
 		message Message = messageProcess.messageBuilder();

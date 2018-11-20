@@ -1,7 +1,7 @@
 package Message;
 
-import behavior.constant;
-import sun.misc.MessageUtils;
+import fileIO.config;
+import Message.MessageUtil;
 import behavior.RemotePeerInfo;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -14,14 +14,14 @@ import com.sun.istack.internal.ByteArrayDataSource;
 public class handshake {
 	private  String header;
 	private String zero_bit;
-	private byte[] peer_ID;
+	private int peer_ID;
 	private RemotePeerInfo remotePeerInfo;
 	
 	
-	public handshake() {
-		this.header = constant.protocolID; 
-		this.zero_bit = constant.zero_bit;
-		this.peer_ID = constant.peer_ID;
+	public handshake(int peer_ID, RemotePeerInfo remotePeerInfo) {
+		this.header = config.HandShakeHeader; 
+		this.zero_bit = config.zerobit;
+		this.peer_ID = peer_ID;
 		this.remotePeerInfo = remotePeerInfo;
 	}
 	
@@ -34,7 +34,7 @@ public class handshake {
 	public void sendHandshakeMSG(BufferedOutputStream out) throws IOException{
 		byte[] handshakeMsg = MessageUtil.concatenateByteArrays(MessageUtil.concatenateByteArrays(this.header.getBytes(),
                         this.zero_bit.getBytes()), 
-                this.peer_ID);
+                MessageUtil.intToByteArray(this.peer_ID));
 		
        out.write(handshakeMsg);
        out.flush();
@@ -49,7 +49,7 @@ public class handshake {
         byte[] header = Arrays.copyOfRange(b, 0, 18);
         int peerId = MessageUtil.byteArrayToInt(copyOfRange);
         String s = new String(header);
-        if(s.equals(constant.protocolID)&&(this.remotePeerInfo.get_peer_ID()==peerId)){
+        if(s.equals(config.HandShakeHeader)&&(this.remotePeerInfo.getPeerID()==peerId)){
         	return true;
         }
         return false;
