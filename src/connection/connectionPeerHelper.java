@@ -103,7 +103,6 @@ public class connectionPeerHelper {
 		return Message;
 	}
 	
-	/////////////////////////////////////////start from 92
 	
 	public static byte[] getActualMessage(BufferedInputStream in) {
 		byte[] ByteLength = new byte[4];
