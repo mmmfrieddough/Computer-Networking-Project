@@ -2,6 +2,7 @@ package Message;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.util.BitSet;
 
 public class MessageUtil {
 	
@@ -65,6 +66,16 @@ public class MessageUtil {
 		}
 		return byteArray;
 	}
-		 
+	
+	public static BitSet fromByteArraytoBitSet(byte[] bytes) {
+	    BitSet bits = new BitSet();
+	    for (int i = 0; i < bytes.length * 8; i++) {
+	      if ((bytes[bytes.length - i / 8 - 1] & (1 << (i % 8))) > 0) {
+	        bits.set(i);
+	      }
+	    }
+	    return bits;
+	  }
+
 		 
 }

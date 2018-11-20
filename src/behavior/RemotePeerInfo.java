@@ -72,7 +72,7 @@ public class RemotePeerInfo {
 		this.state = state;
 	}
 	
-	public long getDownloadRate() {
+	public long getDownloadRate(long l) {
 		return downloadRate;
 	}
 	

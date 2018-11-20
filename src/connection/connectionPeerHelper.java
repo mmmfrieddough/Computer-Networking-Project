@@ -12,7 +12,8 @@ import behavior.RemotePeerInfo;
 import messageType.interest;
 
 public class connectionPeerHelper {
-	public message sendBitSetMSG(BufferedOutputStream out) throws Exception {
+	
+	public static message sendBitSetMSG(BufferedOutputStream out) throws Exception {
 		message_process messageProcess = new message_process((byte) 5, peer.getPeerInstance().getBitSet().toByteArray());
 		message Message = messageProcess.messageBuilder();
 		System.out.println(Message.getMessageLength() + " " + Message.getMessageType() + " " + Message.getMessagePayload());
@@ -24,7 +25,7 @@ public class connectionPeerHelper {
 		return Message;
 	}
 	
-	public message sendInterestedMSG(BufferedOutputStream out) throws Exception {
+	public static message sendInterestedMSG(BufferedOutputStream out) throws Exception {
 		message_process messageProcess = new message_process((byte) 2);
 		message Message = messageProcess.messageBuilder();
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
@@ -36,7 +37,7 @@ public class connectionPeerHelper {
 	}
 	
 	
-	public message sendNotInterestedMSG(BufferedOutputStream out) throws Exception {
+	public static message sendNotInterestedMSG(BufferedOutputStream out) throws Exception {
 		message_process messageProcess = new message_process((byte) 3);
 		message Message = messageProcess.messageBuilder();
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
@@ -47,7 +48,7 @@ public class connectionPeerHelper {
 		return Message;
 	}
 	
-	public message sendChokeMSG(BufferedOutputStream out) throws Exception {
+	public static message sendChokeMSG(BufferedOutputStream out) throws Exception {
 		message_process messageProcess = new message_process((byte) 0);
 		message Message = messageProcess.messageBuilder();
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
@@ -58,7 +59,7 @@ public class connectionPeerHelper {
 		return Message;
 	}
 	
-	public message sendUnChokeMSG(BufferedOutputStream out) throws Exception {
+	public static message sendUnChokeMSG(BufferedOutputStream out) throws Exception {
 		message_process messageProcess = new message_process((byte) 1);
 		message Message = messageProcess.messageBuilder();
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
@@ -69,7 +70,7 @@ public class connectionPeerHelper {
 		return Message;
 	}
 	
-	public message sendRequestMSG(BufferedOutputStream out, RemotePeerInfo remote) throws Exception {
+	public static message sendRequestMSG(BufferedOutputStream out, RemotePeerInfo remote) throws Exception {
 		message_process messageProcess = new message_process((byte) 6,getPieceIndex(remote));
 		message Message = messageProcess.messageBuilder();
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
@@ -80,7 +81,7 @@ public class connectionPeerHelper {
 		return Message;
 	}
 
-	public message sendHaveMSG(BufferedOutputStream out, int receivedPieceIndex) throws Exception {
+	public static message sendHaveMSG(BufferedOutputStream out, int receivedPieceIndex) throws Exception {
 		message_process messageProcess = new message_process((byte) 6, MessageUtil.intToByteArray(receivedPieceIndex));
 		message Message = messageProcess.messageBuilder();
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
@@ -91,7 +92,7 @@ public class connectionPeerHelper {
 		return Message;
 	}
 	
-	public message sendPieceMSG(BufferedOutputStream out, int PieceIndex) throws Exception {
+	public static message sendPieceMSG(BufferedOutputStream out, int PieceIndex) throws Exception {
 		File piece = FileManagerExecutor.getFilePart(pieceIndex);
 		byte[] payload = Files.readAllBytes(piece.toPath());
 		message_process messageProcess = new message_process((byte)7, payload);
@@ -104,7 +105,7 @@ public class connectionPeerHelper {
 	
 	/////////////////////////////////////////start from 92
 	
-	public byte[] getActualMessage(BufferedInputStream in) {
+	public static byte[] getActualMessage(BufferedInputStream in) {
 		byte[] ByteLength = new byte[4];
 		int byteReadin = -1;
 		byte[] data = null; 
