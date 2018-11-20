@@ -12,6 +12,7 @@ import Message.MessageUtil;
 import Message.handshake;
 import Message.message;
 import behavior.RemotePeerInfo;
+import fileIO.dataFile;
 
 
 public class connectionPeer {
@@ -168,7 +169,7 @@ public class connectionPeer {
 			
 			//piece
 			case (byte) 7:{
-				FileManagerExecutor.acceptFilePart(MessageUtil.byteArrayToInt(pieceIndexField), this.in);
+				dataFile.writeFilePiece(MessageUtil.byteArrayToInt(pieceIndexField), this.in);
 				peer.getPeerInstance().getBitSet().set(MessageUtil.byteArrayToInt(pieceIndexField));
 				int piecesNum = peer.getPeerInstance().getBitSet().cardinality();
 				connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);

@@ -1,5 +1,7 @@
 package fileIO;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,6 +10,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
+import connection.connectionPeerHelper;
 import connection.peer;
 
 public class dataFile {
@@ -74,6 +77,21 @@ public class dataFile {
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		}
+	}
+
+	public static void writeFilePiece(int pieceNumber, BufferedInputStream input) {
+		File pieceFile = new File("/peer_" + String.valueOf(peer.getPeerInstance().getPeerID()) + "/" + config.getPartName() + String.valueOf(pieceNumber));
+		try {
+			FileOutputStream outputStream = new FileOutputStream(pieceFile);
+			BufferedOutputStream outputStreamBuffered = new BufferedOutputStream(outputStream);
+			outputStreamBuffered.write(connectionPeerHelper.getActualMessage(input));
+			piecesOfFile.put(pieceNumber, pieceFile);
+			outputStreamBuffered.flush();
+			outputStreamBuffered.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
