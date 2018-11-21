@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import connection.IncomingRequest;
 import connection.peer;
 import fileIO.dataFile;
 
@@ -38,7 +39,7 @@ public class peerServer implements Runnable {
     		// Accept new connection on server socket
     		Socket clientSocket = serverSocket.accept();
     		
-    		this.inThreadPool.execute(new IncomingRequestsHandler(clientSocket, peer.getPeerInstance().getPeerExpectConnectFrom().get(currentID)));
+    		this.inThreadPool.execute(new IncomingRequest(clientSocket, peer.getPeerInstance().getPeerExpectConnectFrom().get(currentID)));
     		currentID++;
     	}
     	

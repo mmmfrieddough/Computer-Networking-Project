@@ -3,6 +3,8 @@ package processes;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import connection.IncomingRequest;
+import connection.outcomingRequest;
 
 import behavior.RemotePeerInfo;
 
@@ -27,7 +29,7 @@ public class peerClient implements Runnable {
     	}
     	// Go through remote peers in list and start a connection process for each
     	for (RemotePeerInfo remotePeer : this.PeerConnectTo.values()) {
-    		this.outThreadPool.execute(new OutgoingRequestsHandler(remotePeer));
+    		this.outThreadPool.execute(new outcomingRequest(remotePeer));
     	}
     }
 }
