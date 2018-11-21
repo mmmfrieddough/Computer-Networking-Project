@@ -182,7 +182,7 @@ public class peer {
 		int count = 0;
 		
 		while(!neighborsQueue.isEmpty()) {
-			if (this.hasFile != 1) {
+			if (this.hasFile == 0) {
                 remote = neighborsQueue.poll(); //like the pop in a stack
                 if ((remote != null ? remote.getState() : null) == msgType.choke) {
 					try {

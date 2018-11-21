@@ -94,4 +94,8 @@ public class dataFile {
 			e.printStackTrace();
 		}
 	}
+	
+	public static File readFilePiece(int pieceNumber) {
+		return piecesOfFile.get(pieceNumber);
+	}
 }

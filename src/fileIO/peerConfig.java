@@ -8,7 +8,7 @@ public class peerConfig {
 	public int ID;
 	public String host;
 	public int port;
-	public boolean hasFile;
+	public int hasFile;
 	
 	public peerConfig(int newID) throws FileNotFoundException {
 		File file = new File("PeerInfo.cfg"); 
@@ -19,7 +19,7 @@ public class peerConfig {
 	    		this.ID = newID;
 	    		this.host = sc.next();
 	    		this.port = sc.nextInt();
-	    		this.hasFile = sc.nextInt() == 1;
+	    		this.hasFile = sc.nextInt();
 	    		break;
 	    	}
 	    	sc.nextLine();

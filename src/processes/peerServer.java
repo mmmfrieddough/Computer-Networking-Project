@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import connection.peer;
+import fileIO.dataFile;
 
 public class peerServer implements Runnable {
     private int port;
@@ -47,6 +48,6 @@ public class peerServer implements Runnable {
     	this.serverSocket.close();
     	
     	// Merge parts of file back into full file
-    	dataFile.merge();
+    	dataFile.mergeFile();
     }
 }

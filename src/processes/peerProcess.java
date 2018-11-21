@@ -24,16 +24,30 @@ public class peerProcess {
     	ScheduledThreadPoolExecutor peerExecutor = new ScheduledThreadPoolExecutor(1);
     	
     	// Refresh common configuration values
-    	config.getCommonConfig();
+    	try {
+			config.getCommonConfig();
+		} catch (FileNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
     	
     	// Read peer properties from file an set them
-    	peerConfig config = new peerConfig(Integer.parseInt(args[0]));
-    	peer.setPeerId(config.ID);
-    	peer.setHostName(config.host);
-    	peer.setPortNum(config.port);
-    	peer.setHasFile(config.hasFile);
+    	peerConfig config;
+		try {
+			config = new peerConfig(Integer.parseInt(args[0]));
+			peer.setPeerId(config.ID);
+	    	peer.setHostName(config.host);
+	    	peer.setPortNum(config.port);
+	    	peer.setHasFile(config.hasFile);
+		} catch (NumberFormatException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     	
-    	if (peer.getHasFile()) {
+    	if (peer.getHasFile() != 0) {
     		peer.setBitSet();
     		if (dataFile.findFile(peer.getPeerID())) {
     			try {
@@ -57,14 +71,16 @@ public class peerProcess {
     		public Object call() {
     			peerServer server = new peerServer();
     			new Thread(server).start();
+    			return null;
     		}
     	};
     	
     	// Callable for creating client
     	Callable clientCreator = new Callable() {
     		public Object call() {
-    			peerClient client = new peerClient();
+    			peerClient client = new peerClient(peer.getPeerConnectTo(), peer.getPeerConnectTo().size());
     			new Thread(client).start();
+    			return null;
     		}
     	};
     	

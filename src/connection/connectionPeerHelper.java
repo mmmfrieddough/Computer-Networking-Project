@@ -9,6 +9,7 @@ import java.util.BitSet;
 
 import Message.*;
 import behavior.RemotePeerInfo;
+import fileIO.dataFile;
 import messageType.interest;
 
 public class connectionPeerHelper {
@@ -93,7 +94,7 @@ public class connectionPeerHelper {
 	}
 	
 	public static message sendPieceMSG(BufferedOutputStream out, int PieceIndex) throws Exception {
-		File piece = FileManagerExecutor.getFilePart(PieceIndex);
+		File piece = dataFile.readFilePiece(PieceIndex);
 		byte[] payload = Files.readAllBytes(piece.toPath());
 		message_process messageProcess = new message_process((byte)7, payload);
 		message Message = messageProcess.messageBuilder();
