@@ -1,5 +1,6 @@
 package processes;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -31,22 +32,37 @@ public class peerServer implements Runnable {
     	}
     	
     	// Open socket with specified port number
-    	this.serverSocket = new ServerSocket(this.port);
+    	try {
+			this.serverSocket = new ServerSocket(this.port);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	
     	// Go through peers until the process is finished
     	int currentID = peer.getPeerInstance().getPeerID();
     	while (!peerProcess.getFinished()) {
     		// Accept new connection on server socket
-    		Socket clientSocket = serverSocket.accept();
-    		
-    		this.inThreadPool.execute(new IncomingRequest(clientSocket, peer.getPeerInstance().getPeerExpectConnectFrom().get(currentID)));
-    		currentID++;
+    		Socket clientSocket;
+			try {
+				clientSocket = serverSocket.accept();
+				this.inThreadPool.execute(new IncomingRequest(clientSocket, peer.getPeerInstance().getPeerExpectConnectFrom().get(currentID)));
+	    		currentID++;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     	}
     	
     	// Shutdown because process is finished
     	this.inThreadPool.shutdown();
     	peerProcess.setFinished();
-    	this.serverSocket.close();
+    	try {
+			this.serverSocket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	
     	// Merge parts of file back into full file
     	dataFile.mergeFile();
