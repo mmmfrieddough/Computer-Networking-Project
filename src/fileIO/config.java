@@ -19,18 +19,26 @@ public class config {
 	    File file = new File("Common.cfg");
 	    Scanner sc = new Scanner(file);
 
+	    System.out.println("Reading common config");
 	    sc.next();
 	    NumberOfPreferredNeighbors = sc.nextInt();
+	    System.out.println("Read NumberOfPreferredNeighbors as " + NumberOfPreferredNeighbors);
 	    sc.next();
 	    UnchokingInterval = sc.nextInt();
+	    System.out.println("Read UnchokingInterval as " + UnchokingInterval);
 	    sc.next();
 	    OptimisticUnchokingInterval = sc.nextInt();
+	    System.out.println("Read OptimisticUnchokingInterval as " + OptimisticUnchokingInterval);
 	    sc.next();
 	    FileName = sc.next();
+	    System.out.println("Read FileName as " + FileName);
 	    sc.next();
 	    FileSize = sc.nextInt();
+	    System.out.println("Read FileSize as " + FileSize);
 	    sc.next();
 	    PieceSize = sc.nextInt();
+	    System.out.println("Read PieceSize as " + PieceSize);
+	    System.out.println();
 	}
 
 	private  static Integer throwEI() {

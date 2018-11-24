@@ -130,21 +130,22 @@ public class peer {
 	}
 	
 	public void BestUnchokedNeighbor() {
+		System.out.println("Setting up timed task for setting unchoked neighbor");
 		TimerTask repeatedTask = new TimerTask() {
 			@Override
 			public void run() {
-				getBest();
+				setBestUnchokedNeighbor();
 			}
 		};
 		
 		Timer BestTimer = new Timer();
 		long delay = 0L;
-		long period = (long) config.getOptimisticUnchokingInterval() * 1000;    //TODO
+		long period = (long) config.getOptimisticUnchokingInterval() * 1000;
 		BestTimer.scheduleAtFixedRate(repeatedTask, delay, period);
-		
 	}
 	
 	private void setBestUnchokedNeighbor() {
+		System.out.println("Finding best unchoked neighbor");
 		this.bestUnchokedNeighbor = this.connectedPeer.get(ThreadLocalRandom.current().nextInt(this.connectedPeer.size()));
 	}
 	

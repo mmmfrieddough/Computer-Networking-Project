@@ -50,6 +50,7 @@ public class peerProcess {
     	if (peer.getHasFile() != 0) {
     		peer.setBitSet();
     		if (dataFile.findFile(peer.getPeerID())) {
+    			System.out.println("Found file, splitting");
     			try {
 					dataFile.splitFile(peer.getPeerID());
 				} catch (FileNotFoundException e) {
@@ -60,9 +61,13 @@ public class peerProcess {
 					e.printStackTrace();
 				}
     		}
+    		else {
+    			System.out.println("Couldn't find file");
+    		}
     	}
     	else {
     		// Make new directory for partial files
+    		System.out.println("Creating directory for files");
     		dataFile.createDirectory(peer.getPeerID());
     	}
     	
@@ -91,8 +96,9 @@ public class peerProcess {
     	peerExecutor.schedule(clientCreator, 0, TimeUnit.SECONDS);
     	
     	// Send connection requests
+    	System.out.println("Sending connection requests");
     	peer.preferredNeighbor();
-    	peer.getBest();
+    	peer.BestUnchokedNeighbor();
     }
     public static boolean getFinished() {
     	return finished;

@@ -17,19 +17,19 @@ public class dataFile {
 	private static Map<Integer, File> piecesOfFile = new TreeMap<>();
 	
 	public static void createDirectory(int peerID) {
-		File directory = new File("/peer_" + String.valueOf(peerID));
+		File directory = new File("peer_" + String.valueOf(peerID));
 	    if (!directory.exists()) {
 	        directory.mkdir();
 	    }
 	}
 	
 	public static boolean findFile(int peerID) {
-		File file = new File("/peer_" + String.valueOf(peerID) + "/" + config.getFileName());
+		File file = new File("peer_" + String.valueOf(peerID) + "/" + config.getFileName());
 		return file.exists();
 	}
 	
 	public static void splitFile(int peerID) throws IOException {
-		File fullFile = new File("/peer_" + String.valueOf(peerID) + "/" + config.getFileName());
+		File fullFile = new File("peer_" + String.valueOf(peerID) + "/" + config.getFileName());
 		FileInputStream inputStream = new FileInputStream(fullFile);
 		
 		int dataLeft = (int) fullFile.length();
@@ -37,7 +37,7 @@ public class dataFile {
 		while (dataLeft > 0) {
 			byte[] pieceData = new byte[config.getPieceSize()];
 			dataLeft -= inputStream.read(pieceData);
-			File pieceFile = new File("/peer_" + String.valueOf(peerID) + "/" + config.getPartName() + String.valueOf(pieceNumber++));
+			File pieceFile = new File("peer_" + String.valueOf(peerID) + "/" + config.getPartName() + String.valueOf(pieceNumber++));
 			FileOutputStream outputStream = new FileOutputStream(pieceFile);
 			outputStream.write(pieceData);
 			outputStream.flush();
@@ -47,7 +47,7 @@ public class dataFile {
 	}
 	
 	public static void mergeFile() {
-		File fullFile = new File("/peer_" + String.valueOf(peer.getPeerInstance().getPeerID()) + "/" + config.getFileName());
+		File fullFile = new File("peer_" + String.valueOf(peer.getPeerInstance().getPeerID()) + "/" + config.getFileName());
 		FileOutputStream outputStream;
 		try {
 			outputStream = new FileOutputStream(fullFile);
@@ -81,7 +81,7 @@ public class dataFile {
 	}
 
 	public static void writeFilePiece(int pieceNumber, BufferedInputStream input) {
-		File pieceFile = new File("/peer_" + String.valueOf(peer.getPeerInstance().getPeerID()) + "/" + config.getPartName() + String.valueOf(pieceNumber));
+		File pieceFile = new File("peer_" + String.valueOf(peer.getPeerInstance().getPeerID()) + "/" + config.getPartName() + String.valueOf(pieceNumber));
 		try {
 			FileOutputStream outputStream = new FileOutputStream(pieceFile);
 			BufferedOutputStream outputStreamBuffered = new BufferedOutputStream(outputStream);
