@@ -33,8 +33,20 @@ public class peer {
 		return PeerConnectTo;
 	}
 	
+	public void addPeerConnectTo(int peerID, RemotePeerInfo peerInfo) {
+		this.PeerConnectTo.put(peerID, peerInfo);
+	}
+	
 	public Map<Integer, RemotePeerInfo> getPeerExpectConnectFrom(){
 		return PeerExpectConnectFrom;
+	}
+	
+	public void addPeerExpectConnectFrom(int peerID, RemotePeerInfo peerInfo) {
+		this.PeerExpectConnectFrom.put(peerID, peerInfo);
+	}
+	
+	public void addConnectedPeer(RemotePeerInfo peer) {
+		this.connectedPeer.add(peer);
 	}
 	
 	public Map<Integer, RemotePeerInfo> getpeersInterested(){
@@ -226,16 +238,5 @@ public class peer {
 			}
 
         }
-
-	
-	
 	}
-	
-	
-	
-	
-	
-	
-	
-
 }

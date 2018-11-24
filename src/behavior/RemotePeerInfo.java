@@ -23,15 +23,12 @@ import java.util.BitSet;
 
 
 public class RemotePeerInfo {
-	private String peerId;
+	private int peerID;
 	private String peerAddress;
-	private String peerPort;
+	private int peerPort;
 	private int hasFile;
 	private long downloadRate;
 	private BitSet bitfield;
-	
-	int peerID = Integer.valueOf(peerId);
-	int PeerPort = Integer.valueOf(peerPort);
 	
 	private Enum state;
 	private Socket socket;
@@ -41,7 +38,7 @@ public class RemotePeerInfo {
 	public RemotePeerInfo(int peerID, String peerAddress, int PeerPort, int hasFile) {
 		this.peerID = peerID;
 		this.peerAddress = peerAddress;
-		this.PeerPort = PeerPort;
+		this.peerPort = PeerPort;
 		this.hasFile = hasFile;
 		this.downloadRate = 0;              //not sure if i should use 0L
 		this.bitfield = new BitSet(peer.getPeerInstance().getPieceCount());    //need to create a method later
@@ -104,11 +101,11 @@ public class RemotePeerInfo {
 	}
 	
 	public int get_portNum() {
-		return PeerPort;
+		return peerPort;
 	}
 	
 	public void set_portNum(int PeerPort) {
-		this.PeerPort = PeerPort;
+		this.peerPort = PeerPort;
 	}
 	
 	public int get_hasFile() {

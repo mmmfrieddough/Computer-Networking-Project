@@ -34,7 +34,7 @@ public class peerProcess {
     	// Read peer properties from file an set them
     	peerConfig config;
 		try {
-			config = new peerConfig(Integer.parseInt(args[0]));
+			config = new peerConfig(Integer.parseInt(args[0]), peer);
 			peer.setPeerId(config.ID);
 	    	peer.setHostName(config.host);
 	    	peer.setPortNum(config.port);
