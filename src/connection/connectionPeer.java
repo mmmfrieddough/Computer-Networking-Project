@@ -14,7 +14,6 @@ import Message.message;
 import behavior.RemotePeerInfo;
 import fileIO.dataFile;
 
-
 public class connectionPeer {
 	RemotePeerInfo remotePeer;
 	Socket socket;
@@ -40,9 +39,8 @@ public class connectionPeer {
 	
 
 	private void initSocket() {
-		// TODO Auto-generated method stub
 		try {
-			if(this.socket==null) {
+			if(this.socket == null) {
 				this.socket = new Socket(InetAddress.getByName(this.remotePeer.getPeerAddress()), this.remotePeer.get_portNum());
 			}
 			this.out = new BufferedOutputStream(this.socket.getOutputStream());
@@ -53,7 +51,8 @@ public class connectionPeer {
 			
 		}
 		catch(IOException e) {
-			throw new RuntimeException("Not able to open client socket", e);
+			//throw new RuntimeException("Not able to open client socket", e);
+			e.printStackTrace();
 		}
 		
 		this.Handshake = new handshake(peer.getPeerInstance().getPeerID(), this.remotePeer);   //TODO
@@ -86,18 +85,17 @@ public class connectionPeer {
 			if(this.flag && MSGType!=(byte)7) {
 				this.downloadStart = 0L;
 			}
-			if(MSGType==(byte) 7) {
-				if(MSGType==(byte) 7 || MSGType==(byte) 4) {                  //redundant, but not sure
-					pieceIndexField = new byte[4];
-					for(int i=0;i<4;i++) {
-						pieceIndexField[i] = msgPayloadReceived[i];
-					}
+			if(MSGType==(byte) 7 || MSGType==(byte) 4) {
+				pieceIndexField = new byte[4];
+				for(int i=0;i<4;i++) {
+					pieceIndexField[i] = msgPayloadReceived[i];
 				}
 			}
 			switch(MSGType) {
 			
 			//choke
 			case (byte) 0:{
+				peer.getPeerInstance().getLog().logChoked(remotePeer.getPeerID());
 				while(this.in.available()==0) {
 					break;
 				}
@@ -105,6 +103,7 @@ public class connectionPeer {
 			
 			//unchoke
 			case (byte) 1:{
+				peer.getPeerInstance().getLog().logUnchoked(remotePeer.getPeerID());
 				int pieceIndex = MessageUtil.byteArrayToInt(connectionPeerHelper.getPieceIndex(this.remotePeer));
 				if(pieceIndex!=-1) {
 					MSG = connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
@@ -120,6 +119,7 @@ public class connectionPeer {
 			
 			//interested
 			case (byte) 2:{
+				peer.getPeerInstance().getLog().logInterested(remotePeer.getPeerID());
 				peer.getPeerInstance().peersInterested.putIfAbsent(this.remotePeer.getPeerID(), this.remotePeer);
 				int haveIndexField = connectionPeerHelper.compare(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField());
 				connectionPeerHelper.sendHaveMSG(this.out, haveIndexField);
@@ -128,6 +128,7 @@ public class connectionPeer {
 			
 			//not interested
 			case (byte) 3:{
+				peer.getPeerInstance().getLog().logNotInterested(remotePeer.getPeerID());
 				if(peer.getPeerInstance().peersInterested.containsKey(this.remotePeer.getPeerID())) {
 					peer.getPeerInstance().peersInterested.remove(this.remotePeer.getPeerID());
 				}
@@ -135,8 +136,9 @@ public class connectionPeer {
 			
 			//have
 			case (byte) 4:{
+				peer.getPeerInstance().getLog().logHave(remotePeer.getPeerID(), MessageUtil.byteArrayToInt(pieceIndexField));
 				if(peer.getPeerInstance().NeighborPreferred.containsKey(this.remotePeer)
-						|| peer.getPeerInstance().getBest()==this.remotePeer) {
+						|| peer.getPeerInstance().getBest() == this.remotePeer) {
 					connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
 				}
 				else {
@@ -171,15 +173,15 @@ public class connectionPeer {
 			case (byte) 7:{
 				dataFile.writeFilePiece(MessageUtil.byteArrayToInt(pieceIndexField), this.in);
 				peer.getPeerInstance().getBitSet().set(MessageUtil.byteArrayToInt(pieceIndexField));
-				int piecesNum = peer.getPeerInstance().getBitSet().cardinality();
+				peer.getPeerInstance().getLog().logDownloadedPiece(remotePeer.getPeerID(), MessageUtil.byteArrayToInt(pieceIndexField), peer.getPeerInstance().getBitSet().cardinality());
+				if (peer.getPeerInstance().getBitSet().cardinality() == peer.getPeerInstance().getPieceCount()) {
+					peer.getPeerInstance().getLog().logDownloadCompletion();
+				}
 				connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
 				break;
 			}
 
 			}
 		}
-		
 	}
-	
-	
 }

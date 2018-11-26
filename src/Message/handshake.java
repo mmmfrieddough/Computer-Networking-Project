@@ -25,10 +25,8 @@ public class handshake {
 		this.remotePeerInfo = remotePeerInfo;
 	}
 	
-	
 	public String handshakeMessage() {
 		return this.header + this.zero_bit + String.valueOf(this.peer_ID);
-		
 	}
 	
 	public void sendHandshakeMSG(BufferedOutputStream out) throws IOException{

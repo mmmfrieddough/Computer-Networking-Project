@@ -172,20 +172,5 @@ public class connectionPeerHelper {
 			return 0;
 		}
 		return right.get(firstDifferent) ? 1:-1;
-		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

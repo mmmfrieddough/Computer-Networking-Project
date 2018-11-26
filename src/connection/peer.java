@@ -1,11 +1,13 @@
 package connection;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.ThreadLocalRandom;
 
 import behavior.RemotePeerInfo;
-import fileIO.config;;
+import fileIO.config;
+import fileIO.log;
 
 public class peer {
 	public static peer Peer;
@@ -16,6 +18,7 @@ public class peer {
 	List<RemotePeerInfo> connectedPeer;
 	volatile Map<RemotePeerInfo, BitSet> NeighborPreferred;
 	Map<Integer, RemotePeerInfo> peersInterested;
+	private log log;
 	
 	public int peerID;
 	private String hostName;
@@ -24,6 +27,10 @@ public class peer {
 	
 	private int pieceSizeExcess;
 	private int pieceCount;
+	
+	public log getLog() {
+		return this.log;
+	}
 	
 	public RemotePeerInfo getBest() {
 		return bestUnchokedNeighbor;
@@ -63,6 +70,12 @@ public class peer {
 	
 	public void setPeerId(int peerID) {
 		this.peerID = peerID;
+		try {
+			this.log = new log(this.peerID);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public String getHostName() {
@@ -79,7 +92,6 @@ public class peer {
 	
 	public void setPortNum(int portNum) {
 		this.portNumber = portNum;
-		
 	}
 	
 	public int getHasFile() {
@@ -103,7 +115,7 @@ public class peer {
 	}
 	
 	public void setPieceCount() {
-		int fileSize = config.getFileSize();                                  //TODO
+		int fileSize = config.getFileSize();
 		int pieceSize = config.getPieceSize();
 		this.pieceCount = (int) Math.ceil((double) fileSize/pieceSize);
 	}
@@ -122,14 +134,12 @@ public class peer {
 		}
 	}
 	
-	
 	private peer() {
 		this.bitfield = new BitSet(this.getPieceCount());
 		this.PeerConnectTo = Collections.synchronizedMap(new LinkedHashMap<>());
 		this.PeerExpectConnectFrom = Collections.synchronizedMap(new LinkedHashMap<>());
 		this.connectedPeer = Collections.synchronizedList(new ArrayList<>());
 		this.peersInterested = Collections.synchronizedMap(new LinkedHashMap<>());
-		
 	}
 	
 	public static peer getPeerInstance() {
@@ -159,6 +169,12 @@ public class peer {
 	private void setBestUnchokedNeighbor() {
 		System.out.println("Finding best unchoked neighbor");
 		this.bestUnchokedNeighbor = this.connectedPeer.get(ThreadLocalRandom.current().nextInt(this.connectedPeer.size()));
+		try {
+			this.log.logOptimisticallyUnchoked(this.bestUnchokedNeighbor.getPeerID());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void preferredNeighbor() {
@@ -178,10 +194,8 @@ public class peer {
 	}
 	
 	private synchronized void setPreferredNeighbor() {
-		// TODO Auto-generated method stub
 		List<RemotePeerInfo> remotePeerList = new LinkedList<>(this.peersInterested.values());
 		Queue<RemotePeerInfo> neighborsQueue = new PriorityBlockingQueue<>(config.getNumberOfPreferredNeighbors(), (o1, o2) -> Math.toIntExact(o1.getDownloadRate() - o2.getDownloadRate()));
-		
 		
 		for(RemotePeerInfo remote : remotePeerList) {
 			neighborsQueue.add(remote);
@@ -227,6 +241,13 @@ public class peer {
 
 
 		}
+		
+		try {
+			this.log.logChangePreferedNeighbors(this.NeighborPreferred);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	
 		while (!neighborsQueue.isEmpty()) {
         	remote = neighborsQueue.poll();
@@ -236,7 +257,6 @@ public class peer {
 				// TODO Auto-generated catch block
 				throw new RuntimeException ("Not able to send choke message", e);
 			}
-
         }
 	}
 }

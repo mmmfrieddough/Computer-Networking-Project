@@ -18,7 +18,7 @@ public class peerConfig {
 	    Scanner sc = new Scanner(file);
 	    
 	    System.out.println("Reading config for peer " + newID);
-	    while(sc.hasNext()) {
+	    while(true) {
 	    	int readID = sc.nextInt();
 	    	String readHost = sc.next();
 	    	int readPort = sc.nextInt();
@@ -38,7 +38,7 @@ public class peerConfig {
 	    		// This is a different peer
 	    		System.out.println("Found remote peer");
 	    		RemotePeerInfo remotePeer = new RemotePeerInfo(readID, readHost, readPort, readHasFile);
-	    		if (readID < newID) {
+	    		if (readID > newID) {
 	    			peer.addPeerExpectConnectFrom(readID, remotePeer);
 	    		}
 	    		else {
@@ -46,6 +46,9 @@ public class peerConfig {
 	    		}
 	    		
 	    		peer.addConnectedPeer(remotePeer);
+	    	}
+	    	if (!sc.hasNext()) {
+	    		break;
 	    	}
 	    	sc.nextLine();
 	    }

@@ -11,7 +11,6 @@ public enum msgType {
 	request ((byte) 6),
 	piece ((byte) 7);
 	
-	
 	private final byte val;
 	
 	private msgType(byte val) {

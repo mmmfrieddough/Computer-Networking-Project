@@ -12,7 +12,7 @@ public class config {
 	public static Integer FileSize;
 	public static Integer PieceSize;
 	public static String partName = "part_";
-	public static final String HandShakeHeader = "P2PFILESHARING";
+	public static final String HandShakeHeader = "P2PFILESHARINGPROJ";
 	public static final String zerobit = "0000000000";
 
 	public static void getCommonConfig() throws FileNotFoundException {
