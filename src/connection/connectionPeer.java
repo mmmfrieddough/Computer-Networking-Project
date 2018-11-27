@@ -101,6 +101,7 @@ public class connectionPeer {
 				while(this.in.available()==0) {
 					break;
 				}
+				break;
 			}
 			
 			//unchoke
@@ -137,6 +138,7 @@ public class connectionPeer {
 				if(peer.getPeerInstance().peersInterested.containsKey(this.remotePeer.getPeerID())) {
 					peer.getPeerInstance().peersInterested.remove(this.remotePeer.getPeerID());
 				}
+				break;
 			}
 			
 			//have
@@ -150,6 +152,7 @@ public class connectionPeer {
 				else {
 					connectionPeerHelper.sendNotInterestedMSG(this.out);
 				}
+				break;
 			}
 			
 			//bitfield
@@ -175,6 +178,7 @@ public class connectionPeer {
 					this.remotePeer.setDownloadRate(this.downloadEnd-this.downloadStart);
 					break;
 				}
+				break;
 			}
 			
 			//piece
