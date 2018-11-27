@@ -39,6 +39,7 @@ public class peerProcess {
 	    	peer.setHostName(config.host);
 	    	peer.setPortNum(config.port);
 	    	peer.setHasFile(config.hasFile);
+	    	peer.setPieceCount();
 		} catch (NumberFormatException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

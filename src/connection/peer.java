@@ -129,7 +129,7 @@ public class peer {
 	}
 	
 	public void setBitSet() {
-		for(int i=0;i<getPieceCount();i++) {
+		for(int i = 0; i < getPieceCount(); i++) {
 			Peer.setBitField(i);
 		}
 	}

@@ -5,6 +5,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.BitSet;
 
 import Message.*;
@@ -17,7 +18,7 @@ public class connectionPeerHelper {
 	public static message sendBitSetMSG(BufferedOutputStream out) throws Exception {
 		message_process messageProcess = new message_process((byte) 5, peer.getPeerInstance().getBitSet().toByteArray());
 		message Message = messageProcess.messageBuilder();
-		System.out.println(Message.getMessageLength() + " " + Message.getMessageType() + " " + Message.getMessagePayload());
+		System.out.println(Arrays.toString(Message.getMessageLength()) + " " + Message.getMessageType() + " " + Arrays.toString(Message.getMessagePayload()));
 		byte[] messageToSend = MessageUtil.concatenateByteArrays(MessageUtil.concatenateByte(Message.getMessageLength(),
 				Message.getMessageType()), Message.getMessagePayload());
 		out.write(messageToSend);
@@ -134,8 +135,10 @@ public class connectionPeerHelper {
 	}
 
 	public static byte getMSGType(BufferedInputStream in) throws IOException {
+		in.mark(5);
 		byte[] ByteLengthAndMSGType = new byte[5];
 		in.read(ByteLengthAndMSGType);
+		in.reset();
 		return ByteLengthAndMSGType[4];
 	}
 	
