@@ -3,9 +3,11 @@ package processes;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import behavior.RemotePeerInfo;
 import connection.IncomingRequest;
 import connection.peer;
 import fileIO.dataFile;
@@ -46,8 +48,8 @@ public class peerServer implements Runnable {
     		Socket clientSocket;
 			try {
 				clientSocket = serverSocket.accept();
+				currentID++;
 				this.inThreadPool.execute(new IncomingRequest(clientSocket, peer.getPeerInstance().getPeerExpectConnectFrom().get(currentID)));
-	    		currentID++;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
