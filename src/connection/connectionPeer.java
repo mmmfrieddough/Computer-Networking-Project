@@ -118,7 +118,7 @@ public class connectionPeer {
 				peer.getPeerInstance().getLog().logUnchoked(remotePeer.getPeerID());
 				int pieceIndex = MessageUtil.byteArrayToInt(connectionPeerHelper.getPieceIndex(this.remotePeer));
 				if(pieceIndex!=-1) {
-					MSG = connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
+					//MSG = connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
 					this.downloadStart = System.nanoTime();
 					this.flag = true;
 				}
@@ -157,7 +157,8 @@ public class connectionPeer {
 				peer.getPeerInstance().getLog().logHave(remotePeer.getPeerID(), MessageUtil.byteArrayToInt(pieceIndexField));
 				if(peer.getPeerInstance().NeighborPreferred.containsKey(this.remotePeer)
 						|| peer.getPeerInstance().getBest() == this.remotePeer) {
-					connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
+					//connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
+					connectionPeerHelper.sendRequestMSG(this.out, MessageUtil.byteArrayToInt(pieceIndexField));
 				}
 				else {
 					connectionPeerHelper.sendNotInterestedMSG(this.out);
@@ -199,6 +200,9 @@ public class connectionPeer {
 				peer.getPeerInstance().getLog().logDownloadedPiece(remotePeer.getPeerID(), MessageUtil.byteArrayToInt(pieceIndexField), peer.getPeerInstance().getBitSet().cardinality());
 				if (peer.getPeerInstance().getBitSet().cardinality() == peer.getPeerInstance().getPieceCount()) {
 					peer.getPeerInstance().getLog().logDownloadCompletion();
+				}
+				if (connectionPeerHelper.isInterested(peer.getPeerInstance().getBitSet(), remotePeer.getbitField())) {
+					MSG = connectionPeerHelper.sendInterestedMSG(this.out);
 				}
 				//connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
 				break;

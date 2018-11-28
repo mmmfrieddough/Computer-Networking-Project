@@ -17,6 +17,10 @@ public class connectionPeerHelper {
 	
 	public static message sendBitSetMSG(BufferedOutputStream out) throws Exception {
 		System.out.println("Sent bit");
+		peer testPeer = peer.getPeerInstance();
+		BitSet testBitset = testPeer.getBitSet();
+		System.out.println(testBitset.toString());
+		byte[] testBytearray = testBitset.toByteArray();
 		message_process messageProcess = new message_process((byte) 5, peer.getPeerInstance().getBitSet().toByteArray());
 		message Message = messageProcess.messageBuilder();
 		System.out.println(Arrays.toString(Message.getMessageLength()) + " " + Message.getMessageType() + " " + Arrays.toString(Message.getMessagePayload()));
@@ -77,10 +81,21 @@ public class connectionPeerHelper {
 		return Message;
 	}
 	
-	public static message sendRequestMSG(BufferedOutputStream out, RemotePeerInfo remote) throws Exception {
+//	public static message sendRequestMSG(BufferedOutputStream out, RemotePeerInfo remote) throws Exception {
+//		System.out.println("Sent request");
+//		message_process messageProcess = new message_process((byte) 6,getPieceIndex(remote));
+//		message Message = messageProcess.messageBuilder();
+//		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
+//				Message.getMessageType());
+//		out.write(messageToSend);
+//		out.flush();
+//		
+//		return Message;
+//	}
+	
+	public static message sendRequestMSG(BufferedOutputStream out, int pieceIndex) throws Exception {
 		System.out.println("Sent request");
-		message_process messageProcess = new message_process((byte) 6,getPieceIndex(remote));
-		//message_process messageProcess = new message_process((byte) 6, MessageUtil.fromByteArraytoBitSet((MessageUtil.fromBitSettoByteArray(peer.getPeerInstance().getBitSet()) ^ MessageUtil.fromBitSettoByteArray(remote.getbitField())) & MessageUtil.fromBitSettoByteArray(remote.getbitField())));
+		message_process messageProcess = new message_process((byte) 6,MessageUtil.intToByteArray(pieceIndex));
 		message Message = messageProcess.messageBuilder();
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
 				Message.getMessageType());
@@ -169,15 +184,20 @@ public class connectionPeerHelper {
 	}
 	
 	public static int compare(BitSet left, BitSet right) {
-		if(left.equals(right)) {
-			return 0;
-		}
-		BitSet xor = (BitSet) left.clone();
-		xor.xor(right);
-		int firstDifferent = xor.length()-1;
-		if(firstDifferent==-1) {
-			return 0;
-		}
-		return right.get(firstDifferent) ? 1:-1;
+		BitSet tmp = (BitSet) left.clone();
+		tmp.xor(right);
+		tmp.and(left);
+		return tmp.nextSetBit(0);
+		
+//		if(left.equals(right)) {
+//			return 0;
+//		}
+//		BitSet xor = (BitSet) left.clone();
+//		xor.xor(right);
+//		int firstDifferent = xor.length()-1;
+//		if(firstDifferent==-1) {
+//			return 0;
+//		}
+//		return right.get(firstDifferent) ? 1:-1;
 	}
 }
