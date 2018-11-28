@@ -153,6 +153,7 @@ public class connectionPeer {
 			case (byte) 4:{
 				System.out.println("Received have");
 				remotePeer.setBitField(MessageUtil.byteArrayToInt(pieceIndexField));
+				//remotePeer.setBitField(MessageUtil.fromByteArraytoBitSet(pieceIndexField | MessageUtil.(remotePeer.getbitField())));
 				peer.getPeerInstance().getLog().logHave(remotePeer.getPeerID(), MessageUtil.byteArrayToInt(pieceIndexField));
 				if(peer.getPeerInstance().NeighborPreferred.containsKey(this.remotePeer)
 						|| peer.getPeerInstance().getBest() == this.remotePeer) {

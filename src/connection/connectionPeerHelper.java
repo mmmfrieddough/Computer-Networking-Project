@@ -80,6 +80,7 @@ public class connectionPeerHelper {
 	public static message sendRequestMSG(BufferedOutputStream out, RemotePeerInfo remote) throws Exception {
 		System.out.println("Sent request");
 		message_process messageProcess = new message_process((byte) 6,getPieceIndex(remote));
+		//message_process messageProcess = new message_process((byte) 6, MessageUtil.fromByteArraytoBitSet((MessageUtil.fromBitSettoByteArray(peer.getPeerInstance().getBitSet()) ^ MessageUtil.fromBitSettoByteArray(remote.getbitField())) & MessageUtil.fromBitSettoByteArray(remote.getbitField())));
 		message Message = messageProcess.messageBuilder();
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
 				Message.getMessageType());

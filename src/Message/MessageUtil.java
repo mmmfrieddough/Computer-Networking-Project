@@ -77,5 +77,13 @@ public class MessageUtil {
 	    return bits;
 	  }
 
-		 
+	public static byte[] fromBitSettoByteArray(BitSet bitset) {
+	    byte[] bytes = new byte[bitset.size()/8+1];
+	    for (int i=0; i<bitset.size(); i++) {
+	        if (bitset.get(i)) {
+	            bytes[bytes.length-i/8-1] |= 1<<(i%8);
+	        }
+	    }
+	    return bytes;
+	  } 
 }
