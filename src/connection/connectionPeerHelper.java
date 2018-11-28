@@ -186,6 +186,8 @@ public class connectionPeerHelper {
 	}
 	
 	public static int getFirstDifference(BitSet left, BitSet right) {
+		System.out.println("Left: " + left.toString());
+		System.out.println("Right: " + right.toString());
 		BitSet tmp = (BitSet) left.clone();
 		tmp.xor(right);
 		tmp.and(right);
