@@ -152,7 +152,7 @@ public class connectionPeer {
 			
 			//have
 			case (byte) 4:{
-				System.out.println("Received have");
+				System.out.println("Received have for piece" + MessageUtil.byteArrayToInt(pieceIndexField));
 				remotePeer.setBitField(MessageUtil.byteArrayToInt(pieceIndexField));
 				//remotePeer.setBitField(MessageUtil.fromByteArraytoBitSet(pieceIndexField | MessageUtil.(remotePeer.getbitField())));
 				peer.getPeerInstance().getLog().logHave(remotePeer.getPeerID(), MessageUtil.byteArrayToInt(pieceIndexField));
@@ -195,7 +195,7 @@ public class connectionPeer {
 			
 			//piece
 			case (byte) 7:{
-				System.out.println("Received piece");
+				System.out.println("Received piece " + MessageUtil.byteArrayToInt(pieceIndexField));
 				dataFile.writeFilePiece(MessageUtil.byteArrayToInt(pieceIndexField), msgPayloadReceived);
 				peer.getPeerInstance().getBitSet().set(MessageUtil.byteArrayToInt(pieceIndexField));
 				peer.getPeerInstance().getLog().logDownloadedPiece(remotePeer.getPeerID(), MessageUtil.byteArrayToInt(pieceIndexField), peer.getPeerInstance().getBitSet().cardinality());

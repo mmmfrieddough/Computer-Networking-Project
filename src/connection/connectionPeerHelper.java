@@ -100,8 +100,8 @@ public class connectionPeerHelper {
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
 				Message.getMessageType());
 		out.write(messageToSend);
+		out.write(Message.getMessagePayload());
 		out.flush();
-		
 		return Message;
 	}
 
@@ -112,6 +112,7 @@ public class connectionPeerHelper {
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
 				Message.getMessageType());
 		out.write(messageToSend);
+		out.write(Message.getMessagePayload());
 		out.flush();
 		
 		return Message;
@@ -120,7 +121,8 @@ public class connectionPeerHelper {
 	public static message sendPieceMSG(BufferedOutputStream out, int PieceIndex) throws Exception {
 		System.out.println("Sent piece");
 		File piece = dataFile.readFilePiece(PieceIndex);
-		byte[] payload = Files.readAllBytes(piece.toPath());
+		byte[] fileBytes = Files.readAllBytes(piece.toPath());
+		byte[] payload = MessageUtil.concatenateByteArrays(MessageUtil.intToByteArray(PieceIndex), fileBytes);
 		message_process messageProcess = new message_process((byte)7, payload);
 		message Message = messageProcess.messageBuilder();
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(), Message.getMessageType());
