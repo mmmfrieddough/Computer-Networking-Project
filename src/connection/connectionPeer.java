@@ -90,6 +90,10 @@ public class connectionPeer {
 			if (MSGType==(byte) 4 || MSGType==(byte) 5 || MSGType==(byte) 6 || MSGType==(byte) 7) {
 				msgPayloadReceived = connectionPeerHelper.getActualMessage(this.in);
 			}
+			else {
+				byte[] b = new byte[in.available()];
+				in.read(b);
+			}
 			if(MSGType==(byte) 7 || MSGType==(byte) 4) {
 				pieceIndexField = new byte[4];
 				for(int i=0;i<4;i++) {
