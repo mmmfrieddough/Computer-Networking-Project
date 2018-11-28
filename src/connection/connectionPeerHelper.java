@@ -145,7 +145,7 @@ public class connectionPeerHelper {
 	
 	//TODO  it might be wrong    
 	public static boolean isInterested(BitSet b1, BitSet b2) {
-		for(int i=0;i<b2.length();i++) {
+		for(int i=0;i<b1.length();i++) {
 //			if(b1.get(i)!=b2.get(i) && b1.get(i)==false && b2.get(i)==true) {
 //				return true;
 //			}
