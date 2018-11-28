@@ -198,7 +198,7 @@ public class connectionPeer {
 				if (peer.getPeerInstance().getBitSet().cardinality() == peer.getPeerInstance().getPieceCount()) {
 					peer.getPeerInstance().getLog().logDownloadCompletion();
 				}
-				connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
+				//connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
 				break;
 			}
 
