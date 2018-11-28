@@ -117,7 +117,7 @@ public class connectionPeer {
 			case (byte) 1:{
 				System.out.println("Received unchoke");
 				peer.getPeerInstance().getLog().logUnchoked(remotePeer.getPeerID());
-				if(connectionPeerHelper.compare(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField()) == -1) {
+				if(connectionPeerHelper.isInterested(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField())) {
 					int pieceIndex = connectionPeerHelper.getFirstDifference(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField());
 					MSG = connectionPeerHelper.sendRequestMSG(this.out, pieceIndex);
 					this.downloadStart = System.nanoTime();
