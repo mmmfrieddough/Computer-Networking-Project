@@ -134,10 +134,10 @@ public class connectionPeer {
 				System.out.println("Received interested");
 				peer.getPeerInstance().getLog().logInterested(remotePeer.getPeerID());
 				peer.getPeerInstance().peersInterested.putIfAbsent(this.remotePeer.getPeerID(), this.remotePeer);
-				if (connectionPeerHelper.compare(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField()) == -1) {
-					int haveIndexField = connectionPeerHelper.getFirstDifference(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField());
-					connectionPeerHelper.sendHaveMSG(this.out, haveIndexField);
-				}
+//				if (connectionPeerHelper.compare(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField()) == -1) {
+//					int haveIndexField = connectionPeerHelper.getFirstDifference(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField());
+//					connectionPeerHelper.sendHaveMSG(this.out, haveIndexField);
+//				}
 				break;
 			}
 			
