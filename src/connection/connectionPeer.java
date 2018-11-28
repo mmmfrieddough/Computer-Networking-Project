@@ -206,7 +206,7 @@ public class connectionPeer {
 			//piece
 			case (byte) 7:{
 				System.out.println("Received piece " + MessageUtil.byteArrayToInt(pieceIndexField));
-				byte[] fileData = Arrays.copyOfRange(msgPayloadReceived, 4, msgPayloadReceived.length - 4);
+				byte[] fileData = Arrays.copyOfRange(msgPayloadReceived, 4, msgPayloadReceived.length);
 				dataFile.writeFilePiece(MessageUtil.byteArrayToInt(pieceIndexField), fileData);
 				peer.getPeerInstance().getBitSet().set(MessageUtil.byteArrayToInt(pieceIndexField));
 				peer.getPeerInstance().getLog().logDownloadedPiece(remotePeer.getPeerID(), MessageUtil.byteArrayToInt(pieceIndexField), peer.getPeerInstance().getBitSet().cardinality());
