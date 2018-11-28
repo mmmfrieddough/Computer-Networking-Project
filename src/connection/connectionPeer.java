@@ -155,16 +155,22 @@ public class connectionPeer {
 			case (byte) 4:{
 				System.out.println("Received have for piece " + MessageUtil.byteArrayToInt(pieceIndexField));
 				remotePeer.setBitField(MessageUtil.byteArrayToInt(pieceIndexField));
-				//remotePeer.setBitField(MessageUtil.fromByteArraytoBitSet(pieceIndexField | MessageUtil.(remotePeer.getbitField())));
-				peer.getPeerInstance().getLog().logHave(remotePeer.getPeerID(), MessageUtil.byteArrayToInt(pieceIndexField));
-				if(peer.getPeerInstance().NeighborPreferred.containsKey(this.remotePeer)
-						|| peer.getPeerInstance().getBest() == this.remotePeer) {
-					//connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
-					connectionPeerHelper.sendRequestMSG(this.out, MessageUtil.byteArrayToInt(pieceIndexField));
+				if (connectionPeerHelper.isInterested(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField())) {
+					connectionPeerHelper.sendInterestedMSG(this.out);
 				}
 				else {
 					connectionPeerHelper.sendNotInterestedMSG(this.out);
 				}
+				//remotePeer.setBitField(MessageUtil.fromByteArraytoBitSet(pieceIndexField | MessageUtil.(remotePeer.getbitField())));
+//				peer.getPeerInstance().getLog().logHave(remotePeer.getPeerID(), MessageUtil.byteArrayToInt(pieceIndexField));
+//				if(peer.getPeerInstance().NeighborPreferred.containsKey(this.remotePeer)
+//						|| peer.getPeerInstance().getBest() == this.remotePeer) {
+//					//connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
+//					connectionPeerHelper.sendRequestMSG(this.out, MessageUtil.byteArrayToInt(pieceIndexField));
+//				}
+//				else {
+//					connectionPeerHelper.sendNotInterestedMSG(this.out);
+//				}
 				break;
 			}
 			
@@ -172,7 +178,7 @@ public class connectionPeer {
 			case (byte) 5:{
 				System.out.println("Received bitfield");
 				BitSet bitfield = MessageUtil.fromByteArraytoBitSet(msgPayloadReceived);
-				if(connectionPeerHelper.isInterested(bitfield, peer.getPeerInstance().getBitSet())) {
+				if(connectionPeerHelper.isInterested(peer.getPeerInstance().getBitSet(), bitfield)) {
 					MSG = connectionPeerHelper.sendInterestedMSG(this.out);
 				}
 				else {
