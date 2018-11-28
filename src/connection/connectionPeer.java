@@ -106,9 +106,9 @@ public class connectionPeer {
 			case (byte) 0:{
 				System.out.println("Received choke");
 				peer.getPeerInstance().getLog().logChoked(remotePeer.getPeerID());
-				while(this.in.available()==0) {
-					break;
-				}
+//				while(this.in.available()==0) {
+//					break;
+//				}
 				break;
 			}
 			
