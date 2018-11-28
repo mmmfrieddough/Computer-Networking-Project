@@ -37,9 +37,10 @@ public class dataFile {
 		while (dataLeft > 0) {
 			byte[] pieceData = new byte[config.getPieceSize()];
 			dataLeft -= inputStream.read(pieceData);
-			File pieceFile = new File("peer_" + String.valueOf(peerID) + "/" + config.getPartName() + String.valueOf(pieceNumber++));
+			File pieceFile = new File("peer_" + String.valueOf(peerID) + "/" + config.getPartName() + String.valueOf(pieceNumber));
 			FileOutputStream outputStream = new FileOutputStream(pieceFile);
 			outputStream.write(pieceData);
+			piecesOfFile.put(pieceNumber++, pieceFile);
 			outputStream.flush();
 			outputStream.close();
 		}

@@ -125,6 +125,7 @@ public class connectionPeerHelper {
 		message Message = messageProcess.messageBuilder();
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(), Message.getMessageType());
 		out.write(messageToSend);
+		out.write(Message.getMessagePayload());
 		out.flush();
 		return Message;
 	}

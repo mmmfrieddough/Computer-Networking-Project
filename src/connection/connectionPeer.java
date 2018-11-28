@@ -83,6 +83,7 @@ public class connectionPeer {
 		while(true) {
 			byte MSGType = connectionPeerHelper.getMSGType(this.in);
 			byte[] msgPayloadReceived = null;
+			this.downloadStart = 0L;
 			//byte[] msgPayloadReceived = connectionPeerHelper.getActualMessage(this.in);
 			if(this.flag && MSGType!=(byte)7) {
 				this.downloadStart = 0L;
@@ -181,7 +182,7 @@ public class connectionPeer {
 			
 			//request
 			case (byte) 6:{
-				System.out.println("Received request");
+				System.out.println("Received request for part " + MessageUtil.byteArrayToInt(msgPayloadReceived));
 				if(peer.getPeerInstance().NeighborPreferred.containsKey(this.remotePeer)
 						|| peer.getPeerInstance().getBest() == this.remotePeer) {
 					connectionPeerHelper.sendPieceMSG(this.out, MessageUtil.byteArrayToInt(msgPayloadReceived));
