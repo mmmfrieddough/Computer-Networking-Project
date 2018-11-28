@@ -82,9 +82,13 @@ public class connectionPeer {
 		
 		while(true) {
 			byte MSGType = connectionPeerHelper.getMSGType(this.in);
-			byte[] msgPayloadReceived = connectionPeerHelper.getActualMessage(this.in);
+			byte[] msgPayloadReceived = null;
+			//byte[] msgPayloadReceived = connectionPeerHelper.getActualMessage(this.in);
 			if(this.flag && MSGType!=(byte)7) {
 				this.downloadStart = 0L;
+			}
+			if (MSGType==(byte) 4 || MSGType==(byte) 5 || MSGType==(byte) 6 || MSGType==(byte) 7) {
+				msgPayloadReceived = connectionPeerHelper.getActualMessage(this.in);
 			}
 			if(MSGType==(byte) 7 || MSGType==(byte) 4) {
 				pieceIndexField = new byte[4];
@@ -184,7 +188,7 @@ public class connectionPeer {
 			//piece
 			case (byte) 7:{
 				System.out.println("Received piece");
-				dataFile.writeFilePiece(MessageUtil.byteArrayToInt(pieceIndexField), this.in);
+				dataFile.writeFilePiece(MessageUtil.byteArrayToInt(pieceIndexField), msgPayloadReceived);
 				peer.getPeerInstance().getBitSet().set(MessageUtil.byteArrayToInt(pieceIndexField));
 				peer.getPeerInstance().getLog().logDownloadedPiece(remotePeer.getPeerID(), MessageUtil.byteArrayToInt(pieceIndexField), peer.getPeerInstance().getBitSet().cardinality());
 				if (peer.getPeerInstance().getBitSet().cardinality() == peer.getPeerInstance().getPieceCount()) {

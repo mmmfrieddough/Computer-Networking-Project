@@ -80,12 +80,12 @@ public class dataFile {
 		}
 	}
 
-	public static void writeFilePiece(int pieceNumber, BufferedInputStream input) {
+	public static void writeFilePiece(int pieceNumber, byte[] input) {
 		File pieceFile = new File("peer_" + String.valueOf(peer.getPeerInstance().getPeerID()) + "/" + config.getPartName() + String.valueOf(pieceNumber));
 		try {
 			FileOutputStream outputStream = new FileOutputStream(pieceFile);
 			BufferedOutputStream outputStreamBuffered = new BufferedOutputStream(outputStream);
-			outputStreamBuffered.write(connectionPeerHelper.getActualMessage(input));
+			outputStreamBuffered.write(input);
 			piecesOfFile.put(pieceNumber, pieceFile);
 			outputStreamBuffered.flush();
 			outputStreamBuffered.close();

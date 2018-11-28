@@ -118,14 +118,9 @@ public class connectionPeerHelper {
 			int dataLength = MessageUtil.byteArrayToInt(ByteLength);
 			byte[] messageType = new byte[1];
 			in.read(messageType);
-			if(messageType[0]==(byte)5) {
-				int actualDataLength = dataLength - 1;
-				data = new byte[actualDataLength];
-				data = MessageUtil.readBytes(in, data, actualDataLength);
-			}
-			else {
-				System.out.println("Message type is not correct");
-			}
+			int actualDataLength = dataLength - 1;
+			data = new byte[actualDataLength];
+			data = MessageUtil.readBytes(in, data, actualDataLength);
 		}
 		catch (IOException e){
 			System.out.println("Not able to get the length of actual message");
