@@ -152,7 +152,7 @@ public class connectionPeer {
 			
 			//have
 			case (byte) 4:{
-				System.out.println("Received have for piece" + MessageUtil.byteArrayToInt(pieceIndexField));
+				System.out.println("Received have for piece " + MessageUtil.byteArrayToInt(pieceIndexField));
 				remotePeer.setBitField(MessageUtil.byteArrayToInt(pieceIndexField));
 				//remotePeer.setBitField(MessageUtil.fromByteArraytoBitSet(pieceIndexField | MessageUtil.(remotePeer.getbitField())));
 				peer.getPeerInstance().getLog().logHave(remotePeer.getPeerID(), MessageUtil.byteArrayToInt(pieceIndexField));
@@ -202,8 +202,8 @@ public class connectionPeer {
 				if (peer.getPeerInstance().getBitSet().cardinality() == peer.getPeerInstance().getPieceCount()) {
 					peer.getPeerInstance().getLog().logDownloadCompletion();
 				}
-				if (connectionPeerHelper.isInterested(peer.getPeerInstance().getBitSet(), remotePeer.getbitField())) {
-					MSG = connectionPeerHelper.sendInterestedMSG(this.out);
+				if (connectionPeerHelper.isInterested(peer.getPeerInstance().getBitSet(), remotePeer.getbitField()) && true /* TODO Change later to unchoked*/) {
+					MSG = connectionPeerHelper.sendRequestMSG(this.out, connectionPeerHelper.compare(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField()));
 				}
 				//connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
 				break;
