@@ -159,6 +159,7 @@ public class connectionPeer {
 			case (byte) 5:{
 				System.out.println("Received bitfield");
 				BitSet bitfield = MessageUtil.fromByteArraytoBitSet(msgPayloadReceived);
+				peer.getPeerInstance().setBitSet();
 				if(connectionPeerHelper.isInterested(bitfield, peer.getPeerInstance().getBitSet())) {
 					MSG = connectionPeerHelper.sendInterestedMSG(this.out);
 				}
