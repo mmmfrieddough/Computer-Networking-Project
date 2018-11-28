@@ -208,6 +208,7 @@ public class connectionPeer {
 				peer.getPeerInstance().getBitSet().set(MessageUtil.byteArrayToInt(pieceIndexField));
 				peer.getPeerInstance().getLog().logDownloadedPiece(remotePeer.getPeerID(), MessageUtil.byteArrayToInt(pieceIndexField), peer.getPeerInstance().getBitSet().cardinality());
 				if (peer.getPeerInstance().getBitSet().cardinality() == peer.getPeerInstance().getPieceCount()) {
+					dataFile.mergeFile();
 					peer.getPeerInstance().getLog().logDownloadCompletion();
 				}
 				if (connectionPeerHelper.isInterested(peer.getPeerInstance().getBitSet(), remotePeer.getbitField()) && true /* TODO Change later to unchoked*/) {
