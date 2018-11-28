@@ -178,7 +178,6 @@ public class connectionPeerHelper {
 		return false;
 	}
 	
-	//not sure if interested is mutual or not  
 	public static byte[] getPieceIndex(RemotePeerInfo remote) {
 		 BitSet b1 = remote.getbitField();
 		 BitSet b2 = peer.getPeerInstance().getBitSet();
@@ -186,21 +185,23 @@ public class connectionPeerHelper {
 		 return MessageUtil.intToByteArray(pieceIndex);
 	}
 	
-	public static int compare(BitSet left, BitSet right) {
+	public static int getFirstDifference(BitSet left, BitSet right) {
 		BitSet tmp = (BitSet) left.clone();
 		tmp.xor(right);
 		tmp.and(left);
 		return tmp.nextSetBit(0);
-		
-//		if(left.equals(right)) {
-//			return 0;
-//		}
-//		BitSet xor = (BitSet) left.clone();
-//		xor.xor(right);
-//		int firstDifferent = xor.length()-1;
-//		if(firstDifferent==-1) {
-//			return 0;
-//		}
-//		return right.get(firstDifferent) ? 1:-1;
+	}
+	
+	public static int compare(BitSet left, BitSet right) {
+		if(left.equals(right)) {
+			return 0;
+		}
+		BitSet xor = (BitSet) left.clone();
+		xor.xor(right);
+		int firstDifferent = xor.length()-1;
+		if(firstDifferent==-1) {
+			return 0;
+		}
+		return right.get(firstDifferent) ? 1:-1;
 	}
 }

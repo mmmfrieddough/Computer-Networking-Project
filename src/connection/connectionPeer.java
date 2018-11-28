@@ -117,14 +117,13 @@ public class connectionPeer {
 			case (byte) 1:{
 				System.out.println("Received unchoke");
 				peer.getPeerInstance().getLog().logUnchoked(remotePeer.getPeerID());
-				int pieceIndex = MessageUtil.byteArrayToInt(connectionPeerHelper.getPieceIndex(this.remotePeer));
-				if(pieceIndex!=-1) {
-					//MSG = connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
+				if(connectionPeerHelper.compare(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField()) == -1) {
+					int pieceIndex = connectionPeerHelper.getFirstDifference(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField());
+					MSG = connectionPeerHelper.sendRequestMSG(this.out, pieceIndex);
 					this.downloadStart = System.nanoTime();
 					this.flag = true;
 				}
-				
-				if(pieceIndex==1) {
+				else {
 					MSG = connectionPeerHelper.sendNotInterestedMSG(this.out);
 				}
 				break;
@@ -135,8 +134,10 @@ public class connectionPeer {
 				System.out.println("Received interested");
 				peer.getPeerInstance().getLog().logInterested(remotePeer.getPeerID());
 				peer.getPeerInstance().peersInterested.putIfAbsent(this.remotePeer.getPeerID(), this.remotePeer);
-				int haveIndexField = connectionPeerHelper.compare(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField());
-				connectionPeerHelper.sendHaveMSG(this.out, haveIndexField);
+				if (connectionPeerHelper.compare(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField()) == -1) {
+					int haveIndexField = connectionPeerHelper.getFirstDifference(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField());
+					connectionPeerHelper.sendHaveMSG(this.out, haveIndexField);
+				}
 				break;
 			}
 			
@@ -203,7 +204,7 @@ public class connectionPeer {
 					peer.getPeerInstance().getLog().logDownloadCompletion();
 				}
 				if (connectionPeerHelper.isInterested(peer.getPeerInstance().getBitSet(), remotePeer.getbitField()) && true /* TODO Change later to unchoked*/) {
-					MSG = connectionPeerHelper.sendRequestMSG(this.out, connectionPeerHelper.compare(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField()));
+					MSG = connectionPeerHelper.sendRequestMSG(this.out, connectionPeerHelper.getFirstDifference(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField()));
 				}
 				//connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
 				break;
