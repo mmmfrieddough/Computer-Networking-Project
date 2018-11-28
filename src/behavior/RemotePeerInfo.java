@@ -78,15 +78,13 @@ public class RemotePeerInfo {
 		return bitfield;
 	}
 	
-	public void setbitField(BitSet bitField) {
-		this.bitfield = bitField;
+	public void setBitField(int i) {
+		this.bitfield.set(i);
 	}
 	
 	public int getPeerID(){
 		return peerID;
 	}
-	
-	
 	
 	public void setPeerID(int peerID) {
 		this.peerID = peerID;
@@ -115,23 +113,4 @@ public class RemotePeerInfo {
 	public void set_hasFile(int hasFile) {
 		this.hasFile = hasFile;
 	}
-		
-	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

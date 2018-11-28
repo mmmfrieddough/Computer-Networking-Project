@@ -91,7 +91,7 @@ public class connectionPeerHelper {
 
 	public static message sendHaveMSG(BufferedOutputStream out, int receivedPieceIndex) throws Exception {
 		System.out.println("Sent have");
-		message_process messageProcess = new message_process((byte) 6, MessageUtil.intToByteArray(receivedPieceIndex));
+		message_process messageProcess = new message_process((byte) 4, MessageUtil.intToByteArray(receivedPieceIndex));
 		message Message = messageProcess.messageBuilder();
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
 				Message.getMessageType());
