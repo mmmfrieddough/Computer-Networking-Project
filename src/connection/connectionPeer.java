@@ -178,6 +178,7 @@ public class connectionPeer {
 			case (byte) 5:{
 				System.out.println("Received bitfield");
 				BitSet bitfield = MessageUtil.fromByteArraytoBitSet(msgPayloadReceived);
+				this.remotePeer.setBitSet(bitfield);
 				if(connectionPeerHelper.isInterested(peer.getPeerInstance().getBitSet(), bitfield)) {
 					MSG = connectionPeerHelper.sendInterestedMSG(this.out);
 				}
@@ -212,6 +213,7 @@ public class connectionPeer {
 				if (connectionPeerHelper.isInterested(peer.getPeerInstance().getBitSet(), remotePeer.getbitField()) && true /* TODO Change later to unchoked*/) {
 					MSG = connectionPeerHelper.sendRequestMSG(this.out, connectionPeerHelper.getFirstDifference(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField()));
 				}
+				connectionPeerHelper.sendHaveMSG(this.out, MessageUtil.byteArrayToInt(pieceIndexField));
 				//connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
 				break;
 			}

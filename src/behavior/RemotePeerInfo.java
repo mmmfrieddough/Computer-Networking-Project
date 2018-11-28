@@ -82,6 +82,10 @@ public class RemotePeerInfo {
 		this.bitfield.set(i);
 	}
 	
+	public void setBitSet(BitSet i) {
+		this.bitfield = i;
+	}
+	
 	public int getPeerID(){
 		return peerID;
 	}
