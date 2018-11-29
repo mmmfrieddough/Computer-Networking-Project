@@ -230,11 +230,13 @@ public class connectionPeer {
 				if (remotePeerCheck.getbitField().cardinality() != peer.getPeerInstance().getPieceCount()) {
 					newFlag = false;
 				}
+				System.out.println("Remote peer " + remotePeerCheck.getPeerID() + " has " + remotePeerCheck.getbitField().cardinality() + "/" + peer.getPeerInstance().getPieceCount());
 			}
 			for (RemotePeerInfo remotePeerCheck : peer.getPeerInstance().getPeerExpectConnectFrom().values()) {
 				if (remotePeerCheck.getbitField().cardinality() != peer.getPeerInstance().getPieceCount()) {
 					newFlag = false;
 				}
+				System.out.println("Remote peer " + remotePeerCheck.getPeerID() + " has " + remotePeerCheck.getbitField().cardinality() + "/" + peer.getPeerInstance().getPieceCount());
 			}
 			if (newFlag) {
 				peerProcess.setFinished();
