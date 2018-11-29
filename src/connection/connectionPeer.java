@@ -238,6 +238,7 @@ public class connectionPeer {
 			}
 			if (newFlag) {
 				peerProcess.setFinished();
+				break;
 			}
 		}
 	}
