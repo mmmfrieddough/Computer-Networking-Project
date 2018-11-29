@@ -219,21 +219,23 @@ public class peer {
 						// TODO Auto-generated catch block
 						throw new RuntimeException ("Could not send choke message from the peer class", e);
 					}
-                this.NeighborPreferred.put(remote, remote.getbitField());
+					System.out.println("New preferred neighbor: " + remote.getPeerID());
+					this.NeighborPreferred.put(remote, remote.getbitField());
                 }
             }
 			
 			else{
                 remote = this.connectedPeer.get(ThreadLocalRandom.current().nextInt(this.connectedPeer.size()));
-                if (remote.getState() == msgType.choke || remote.getState() == null)
+                if (remote.getState() == msgType.choke || remote.getState() == null) {
                 	try {
 						connectionPeerHelper.sendUnChokeMSG(remote.bufferedOutputStream);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						throw new RuntimeException ("Could not send choke message from the peer class", e);
 					}
-
-                this.NeighborPreferred.put(remote, remote.getbitField());
+                	System.out.println("New preferred neighbor: " + remote.getPeerID());
+                	this.NeighborPreferred.put(remote, remote.getbitField());
+                }
             }
 			
 			count++;

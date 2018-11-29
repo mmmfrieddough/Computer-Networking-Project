@@ -47,7 +47,7 @@ public class log {
 	}
 	
 	public void logUnchoked(int peer_ID_2) throws IOException {
-		logOutputStream.write((LocalDateTime.now() + ": Peer " + peer_ID + "  is unchoked by " + peer_ID_2 + "." + System.getProperty("line.separator")).getBytes());
+		logOutputStream.write((LocalDateTime.now() + ": Peer " + peer_ID + " is unchoked by " + peer_ID_2 + "." + System.getProperty("line.separator")).getBytes());
 	}
 	
 	public void logChoked(int peer_ID_2) throws IOException {
