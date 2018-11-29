@@ -107,7 +107,7 @@ public class connectionPeer {
 			
 			//choke
 			case (byte) 0:{
-//				System.out.println("Received choke");
+				System.out.println("Received choke");
 				peer.getPeerInstance().getLog().logChoked(remotePeer.getPeerID());
 				//remotePeer.getState()
 //				while(this.in.available()==0) {
@@ -118,7 +118,7 @@ public class connectionPeer {
 			
 			//unchoke
 			case (byte) 1:{
-//				System.out.println("Received unchoke");
+				System.out.println("Received unchoke");
 				peer.getPeerInstance().getLog().logUnchoked(remotePeer.getPeerID());
 				if(connectionPeerHelper.isInterested(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField())) {
 					int pieceIndex = connectionPeerHelper.getFirstDifference(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField());
@@ -134,7 +134,7 @@ public class connectionPeer {
 			
 			//interested
 			case (byte) 2:{
-//				System.out.println("Received interested");
+				System.out.println("Received interested");
 				peer.getPeerInstance().getLog().logInterested(remotePeer.getPeerID());
 				peer.getPeerInstance().peersInterested.putIfAbsent(this.remotePeer.getPeerID(), this.remotePeer);
 //				if (connectionPeerHelper.compare(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField()) == -1) {
@@ -146,7 +146,7 @@ public class connectionPeer {
 			
 			//not interested
 			case (byte) 3:{
-//				System.out.println("Received not interested");
+				System.out.println("Received not interested");
 				peer.getPeerInstance().getLog().logNotInterested(remotePeer.getPeerID());
 				if(peer.getPeerInstance().peersInterested.containsKey(this.remotePeer.getPeerID())) {
 					peer.getPeerInstance().peersInterested.remove(this.remotePeer.getPeerID());
@@ -156,7 +156,7 @@ public class connectionPeer {
 			
 			//have
 			case (byte) 4:{
-//				System.out.println("Received have for piece " + MessageUtil.byteArrayToInt(pieceIndexField));
+				System.out.println("Received have for piece " + MessageUtil.byteArrayToInt(pieceIndexField));
 				remotePeer.setBitField(MessageUtil.byteArrayToInt(pieceIndexField));
 				if (connectionPeerHelper.isInterested(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField())) {
 					connectionPeerHelper.sendInterestedMSG(this.out);
@@ -194,7 +194,7 @@ public class connectionPeer {
 			
 			//request
 			case (byte) 6:{
-//				System.out.println("Received request for part " + MessageUtil.byteArrayToInt(msgPayloadReceived));
+				System.out.println("Received request for part " + MessageUtil.byteArrayToInt(msgPayloadReceived));
 				if(peer.getPeerInstance().NeighborPreferred.containsKey(this.remotePeer)
 						|| peer.getPeerInstance().getBest() == this.remotePeer) {
 					connectionPeerHelper.sendPieceMSG(this.out, MessageUtil.byteArrayToInt(msgPayloadReceived));
@@ -207,7 +207,7 @@ public class connectionPeer {
 			
 			//piece
 			case (byte) 7:{
-//				System.out.println("Received piece " + MessageUtil.byteArrayToInt(pieceIndexField));
+				System.out.println("Received piece " + MessageUtil.byteArrayToInt(pieceIndexField));
 				byte[] fileData = Arrays.copyOfRange(msgPayloadReceived, 4, msgPayloadReceived.length);
 				dataFile.writeFilePiece(MessageUtil.byteArrayToInt(pieceIndexField), fileData);
 				peer.getPeerInstance().getBitSet().set(MessageUtil.byteArrayToInt(pieceIndexField));

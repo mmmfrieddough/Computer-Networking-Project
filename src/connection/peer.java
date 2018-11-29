@@ -167,7 +167,7 @@ public class peer {
 	}
 	
 	private void setBestUnchokedNeighbor() {
-//		System.out.println("Finding best unchoked neighbor");
+		System.out.println("Finding best unchoked neighbor");
 		this.bestUnchokedNeighbor = this.connectedPeer.get(ThreadLocalRandom.current().nextInt(this.connectedPeer.size()));
 		try {
 			this.log.logOptimisticallyUnchoked(this.bestUnchokedNeighbor.getPeerID());
@@ -225,7 +225,7 @@ public class peer {
 						// TODO Auto-generated catch block
 						throw new RuntimeException ("Could not send choke message from the peer class", e);
 					}
-//					System.out.println("New preferred neighbor: " + remote.getPeerID());
+					System.out.println("New preferred neighbor: " + remote.getPeerID());
 					this.NeighborPreferred.put(remote, remote.getbitField());
                 }
             }
@@ -242,7 +242,7 @@ public class peer {
 						// TODO Auto-generated catch block
 						throw new RuntimeException ("Could not send choke message from the peer class", e);
 					}
-//                	System.out.println("New preferred neighbor: " + remote.getPeerID());
+                	System.out.println("New preferred neighbor: " + remote.getPeerID());
                 	neighborsQueue.remove(remote);
                 	this.NeighborPreferred.put(remote, remote.getbitField());
                 }
