@@ -16,8 +16,7 @@ public class handshake {
 	private String zero_bit;
 	private int peer_ID;
 	private RemotePeerInfo remotePeerInfo;
-	
-	
+
 	public handshake(int peer_ID, RemotePeerInfo remotePeerInfo) {
 		this.header = config.HandShakeHeader; 
 		this.zero_bit = config.zerobit;
