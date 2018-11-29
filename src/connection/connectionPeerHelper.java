@@ -5,8 +5,12 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
 
 import Message.*;
 import behavior.RemotePeerInfo;
@@ -192,6 +196,20 @@ public class connectionPeerHelper {
 		tmp.xor(right);
 		tmp.and(right);
 		return tmp.nextSetBit(0);
+	}
+	
+	public static int getRandomDifference(BitSet left, BitSet right) {
+		System.out.println("Left: " + left.toString());
+		System.out.println("Right: " + right.toString());
+		BitSet tmp = (BitSet) left.clone();
+		tmp.xor(right);
+		tmp.and(right);
+		List<Integer> indexes = new ArrayList<Integer>(tmp.cardinality());
+		for (int i = tmp.nextSetBit(0); i != -1; i = tmp.nextSetBit(i + 1)) {
+		    indexes.add(i);
+		}
+		Random rand = new Random();
+		return indexes.get(rand.nextInt(indexes.size()));
 	}
 	
 	public static int compare(BitSet left, BitSet right) {
