@@ -243,6 +243,7 @@ public class peer {
 						throw new RuntimeException ("Could not send choke message from the peer class", e);
 					}
                 	System.out.println("New preferred neighbor: " + remote.getPeerID());
+                	neighborsQueue.remove(remote);
                 	this.NeighborPreferred.put(remote, remote.getbitField());
                 }
             }
