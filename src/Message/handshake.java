@@ -30,6 +30,7 @@ public class handshake {
 	}
 	
 	public void sendHandshakeMSG(BufferedOutputStream out) throws IOException{
+		System.out.println("Sent handshake to " + this.remotePeerInfo.getPeerID());
 		byte[] handshakeMsg = MessageUtil.concatenateByteArrays(MessageUtil.concatenateByteArrays(this.header.getBytes(),
                         this.zero_bit.getBytes()), 
                 MessageUtil.intToByteArray(this.peer_ID));
@@ -48,6 +49,7 @@ public class handshake {
         int peerId = MessageUtil.byteArrayToInt(copyOfRange);
         String s = new String(header);
         if(s.equals(config.HandShakeHeader)&&(this.remotePeerInfo.getPeerID()==peerId)){
+        	System.out.println("Received handshake from " + peerId);
         	return true;
         }
         return false;
