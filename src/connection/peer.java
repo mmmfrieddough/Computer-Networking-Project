@@ -204,6 +204,10 @@ public class peer {
 		
 		RemotePeerInfo remote;
 		
+		Map<RemotePeerInfo, BitSet> prevUnchoked = new HashMap<>();
+		for (Map.Entry<RemotePeerInfo, BitSet> item: this.NeighborPreferred.entrySet()) {
+			prevUnchoked.put(item.getKey(), item.getValue());
+		}
 		this.NeighborPreferred.clear();
 		
 		int count = 0;
@@ -213,7 +217,9 @@ public class peer {
                 remote = neighborsQueue.poll(); //like the pop in a stack
                 if ((remote != null ? remote.getState() : null) == msgType.choke) {
 					try {
-						connectionPeerHelper.sendUnChokeMSG(remote.bufferedOutputStream);
+						if (!prevUnchoked.containsKey(remote)) {
+							connectionPeerHelper.sendUnChokeMSG(remote.bufferedOutputStream);
+						}
 						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
@@ -228,7 +234,10 @@ public class peer {
                 remote = this.connectedPeer.get(ThreadLocalRandom.current().nextInt(this.connectedPeer.size()));
                 if (remote.getState() == msgType.choke || remote.getState() == null) {
                 	try {
-						connectionPeerHelper.sendUnChokeMSG(remote.bufferedOutputStream);
+                		if (!prevUnchoked.containsKey(remote)) {
+							connectionPeerHelper.sendUnChokeMSG(remote.bufferedOutputStream);
+						}
+						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						throw new RuntimeException ("Could not send choke message from the peer class", e);
