@@ -37,7 +37,7 @@ public class connectionPeerHelper {
 	}
 	
 	public static message sendInterestedMSG(BufferedOutputStream out) throws Exception {
-		System.out.println("Sent interested");
+//		System.out.println("Sent interested");
 		message_process messageProcess = new message_process((byte) 2);
 		message Message = messageProcess.messageBuilder();
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
@@ -50,7 +50,7 @@ public class connectionPeerHelper {
 	
 	
 	public static message sendNotInterestedMSG(BufferedOutputStream out) throws Exception {
-		System.out.println("Sent not interested");
+//		System.out.println("Sent not interested");
 		message_process messageProcess = new message_process((byte) 3);
 		message Message = messageProcess.messageBuilder();
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
@@ -62,7 +62,7 @@ public class connectionPeerHelper {
 	}
 	
 	public static message sendChokeMSG(BufferedOutputStream out) throws Exception {
-		System.out.println("Sent choke");
+//		System.out.println("Sent choke");
 		message_process messageProcess = new message_process((byte) 0);
 		message Message = messageProcess.messageBuilder();
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
@@ -74,7 +74,7 @@ public class connectionPeerHelper {
 	}
 	
 	public static message sendUnChokeMSG(BufferedOutputStream out) throws Exception {
-		System.out.println("Sent unchoke");
+//		System.out.println("Sent unchoke");
 		message_process messageProcess = new message_process((byte) 1);
 		message Message = messageProcess.messageBuilder();
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
@@ -98,7 +98,7 @@ public class connectionPeerHelper {
 //	}
 	
 	public static message sendRequestMSG(BufferedOutputStream out, int pieceIndex) throws Exception {
-		System.out.println("Sent request");
+//		System.out.println("Sent request");
 		message_process messageProcess = new message_process((byte) 6,MessageUtil.intToByteArray(pieceIndex));
 		message Message = messageProcess.messageBuilder();
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
@@ -110,7 +110,7 @@ public class connectionPeerHelper {
 	}
 
 	public static message sendHaveMSG(BufferedOutputStream out, int receivedPieceIndex) throws Exception {
-		System.out.println("Sent have");
+//		System.out.println("Sent have");
 		message_process messageProcess = new message_process((byte) 4, MessageUtil.intToByteArray(receivedPieceIndex));
 		message Message = messageProcess.messageBuilder();
 		byte[] messageToSend = MessageUtil.concatenateByte(Message.getMessageLength(),
@@ -123,7 +123,7 @@ public class connectionPeerHelper {
 	}
 	
 	public static message sendPieceMSG(BufferedOutputStream out, int PieceIndex) throws Exception {
-		System.out.println("Sent piece");
+//		System.out.println("Sent piece");
 		File piece = dataFile.readFilePiece(PieceIndex);
 		byte[] fileBytes = Files.readAllBytes(piece.toPath());
 		byte[] payload = MessageUtil.concatenateByteArrays(MessageUtil.intToByteArray(PieceIndex), fileBytes);
