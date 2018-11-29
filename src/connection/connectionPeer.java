@@ -121,7 +121,7 @@ public class connectionPeer {
 				System.out.println("Received unchoke");
 				peer.getPeerInstance().getLog().logUnchoked(remotePeer.getPeerID());
 				if(connectionPeerHelper.isInterested(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField())) {
-					int pieceIndex = connectionPeerHelper.getRandomDifference(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField());
+					int pieceIndex = connectionPeerHelper.getFirstDifference(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField());
 					MSG = connectionPeerHelper.sendRequestMSG(this.out, pieceIndex);
 					this.downloadStart = System.nanoTime();
 					this.flag = true;
@@ -217,7 +217,7 @@ public class connectionPeer {
 					peer.getPeerInstance().getLog().logDownloadCompletion();
 				}
 				if (connectionPeerHelper.isInterested(peer.getPeerInstance().getBitSet(), remotePeer.getbitField()) && true /* TODO Change later to unchoked*/) {
-					MSG = connectionPeerHelper.sendRequestMSG(this.out, connectionPeerHelper.getRandomDifference(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField()));
+					MSG = connectionPeerHelper.sendRequestMSG(this.out, connectionPeerHelper.getFirstDifference(peer.getPeerInstance().getBitSet(), this.remotePeer.getbitField()));
 				}
 				connectionPeerHelper.sendHaveMSG(this.out, MessageUtil.byteArrayToInt(pieceIndexField));
 				//connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
