@@ -213,7 +213,7 @@ public class peer {
                 remote = neighborsQueue.poll(); //like the pop in a stack
                 if ((remote != null ? remote.getState() : null) == msgType.choke) {
 					try {
-						connectionPeerHelper.sendChokeMSG(remote.bufferedOutputStream);
+						connectionPeerHelper.sendUnChokeMSG(remote.bufferedOutputStream);
 						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
@@ -254,7 +254,7 @@ public class peer {
 		while (!neighborsQueue.isEmpty()) {
         	remote = neighborsQueue.poll();
         	try {
-        		connectionPeerHelper.sendUnChokeMSG(remote.bufferedOutputStream);
+        		connectionPeerHelper.sendChokeMSG(remote.bufferedOutputStream);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				throw new RuntimeException ("Not able to send choke message", e);
