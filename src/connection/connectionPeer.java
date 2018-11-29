@@ -243,6 +243,7 @@ public class connectionPeer {
 			}
 			if (newFlag) {
 				System.out.println("Shutting down");
+				System.exit(0);
 				peerProcess.setFinished();
 				break;
 			}
