@@ -226,28 +226,28 @@ public class connectionPeer {
 
 			}
 			
-			boolean newFlag = true;
-			if (peer.getPeerInstance().getBitSet().cardinality() != peer.getPeerInstance().getPieceCount()) {
-				newFlag = false;
-			}
-			for (RemotePeerInfo remotePeerCheck : peer.getPeerInstance().getPeerConnectTo().values()) {
-				if (remotePeerCheck.getbitField().cardinality() != peer.getPeerInstance().getPieceCount()) {
-					newFlag = false;
-				}
-				//System.out.println("Remote peer " + remotePeerCheck.getPeerID() + " has " + remotePeerCheck.getbitField().cardinality() + "/" + peer.getPeerInstance().getPieceCount());
-			}
-			for (RemotePeerInfo remotePeerCheck : peer.getPeerInstance().getPeerExpectConnectFrom().values()) {
-				if (remotePeerCheck.getbitField().cardinality() != peer.getPeerInstance().getPieceCount()) {
-					newFlag = false;
-				}
-				//System.out.println("Remote peer " + remotePeerCheck.getPeerID() + " has " + remotePeerCheck.getbitField().cardinality() + "/" + peer.getPeerInstance().getPieceCount());
-			}
-			if (newFlag) {
-				System.out.println("Shutting down");
-//				System.exit(0);
-				peerProcess.setFinished();
-				break;
-			}
+//			boolean newFlag = true;
+//			if (peer.getPeerInstance().getBitSet().cardinality() != peer.getPeerInstance().getPieceCount()) {
+//				newFlag = false;
+//			}
+//			for (RemotePeerInfo remotePeerCheck : peer.getPeerInstance().getPeerConnectTo().values()) {
+//				if (remotePeerCheck.getbitField().cardinality() != peer.getPeerInstance().getPieceCount()) {
+//					newFlag = false;
+//				}
+//				//System.out.println("Remote peer " + remotePeerCheck.getPeerID() + " has " + remotePeerCheck.getbitField().cardinality() + "/" + peer.getPeerInstance().getPieceCount());
+//			}
+//			for (RemotePeerInfo remotePeerCheck : peer.getPeerInstance().getPeerExpectConnectFrom().values()) {
+//				if (remotePeerCheck.getbitField().cardinality() != peer.getPeerInstance().getPieceCount()) {
+//					newFlag = false;
+//				}
+//				//System.out.println("Remote peer " + remotePeerCheck.getPeerID() + " has " + remotePeerCheck.getbitField().cardinality() + "/" + peer.getPeerInstance().getPieceCount());
+//			}
+//			if (newFlag) {
+//				System.out.println("Shutting down");
+////				System.exit(0);
+//				peerProcess.setFinished();
+//				break;
+//			}
 		}
 	}
 }
