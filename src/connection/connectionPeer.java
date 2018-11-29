@@ -226,6 +226,9 @@ public class connectionPeer {
 			}
 			
 			boolean newFlag = true;
+			if (peer.getPeerInstance().getBitSet().cardinality() != peer.getPeerInstance().getPieceCount()) {
+				newFlag = false;
+			}
 			for (RemotePeerInfo remotePeerCheck : peer.getPeerInstance().getPeerConnectTo().values()) {
 				if (remotePeerCheck.getbitField().cardinality() != peer.getPeerInstance().getPieceCount()) {
 					newFlag = false;
