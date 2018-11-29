@@ -14,6 +14,7 @@ import Message.handshake;
 import Message.message;
 import behavior.RemotePeerInfo;
 import fileIO.dataFile;
+import processes.peerProcess;
 
 public class connectionPeer {
 	RemotePeerInfo remotePeer;
@@ -222,6 +223,21 @@ public class connectionPeer {
 				break;
 			}
 
+			}
+			
+			boolean newFlag = true;
+			for (RemotePeerInfo remotePeerCheck : peer.getPeerInstance().getPeerConnectTo().values()) {
+				if (remotePeerCheck.getbitField().cardinality() != peer.getPeerInstance().getPieceCount()) {
+					newFlag = false;
+				}
+			}
+			for (RemotePeerInfo remotePeerCheck : peer.getPeerInstance().getPeerExpectConnectFrom().values()) {
+				if (remotePeerCheck.getbitField().cardinality() != peer.getPeerInstance().getPieceCount()) {
+					newFlag = false;
+				}
+			}
+			if (newFlag) {
+				peerProcess.setFinished();
 			}
 		}
 	}
