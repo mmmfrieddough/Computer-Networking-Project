@@ -53,7 +53,6 @@ public class connectionPeer {
 			
 		}
 		catch(IOException e) {
-			//throw new RuntimeException("Not able to open client socket", e);
 			e.printStackTrace();
 		}
 		
@@ -87,7 +86,7 @@ public class connectionPeer {
 			byte[] msgPayloadReceived = null;
 			this.downloadStart = 0L;
 			//byte[] msgPayloadReceived = connectionPeerHelper.getActualMessage(this.in);
-			if(this.flag && MSGType!=(byte)7) {
+			if(MSGType!=(byte)7) {
 				this.downloadStart = 0L;
 			}
 			if (MSGType==(byte) 4 || MSGType==(byte) 5 || MSGType==(byte) 6 || MSGType==(byte) 7) {
@@ -109,10 +108,7 @@ public class connectionPeer {
 			case (byte) 0:{
 				System.out.println("Received choke");
 				peer.getPeerInstance().getLog().logChoked(remotePeer.getPeerID());
-				//remotePeer.getState()
-//				while(this.in.available()==0) {
-//					break;
-//				}
+
 				break;
 			}
 			
@@ -164,16 +160,7 @@ public class connectionPeer {
 				else {
 					connectionPeerHelper.sendNotInterestedMSG(this.out);
 				}
-				//remotePeer.setBitField(MessageUtil.fromByteArraytoBitSet(pieceIndexField | MessageUtil.(remotePeer.getbitField())));
-//				peer.getPeerInstance().getLog().logHave(remotePeer.getPeerID(), MessageUtil.byteArrayToInt(pieceIndexField));
-//				if(peer.getPeerInstance().NeighborPreferred.containsKey(this.remotePeer)
-//						|| peer.getPeerInstance().getBest() == this.remotePeer) {
-//					//connectionPeerHelper.sendRequestMSG(this.out, this.remotePeer);
-//					connectionPeerHelper.sendRequestMSG(this.out, MessageUtil.byteArrayToInt(pieceIndexField));
-//				}
-//				else {
-//					connectionPeerHelper.sendNotInterestedMSG(this.out);
-//				}
+
 				break;
 			}
 			
